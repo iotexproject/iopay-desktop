@@ -51,4 +51,4 @@ npm-debug.log.*
 
 
 *.lock
--lock.json
+*-lock.json

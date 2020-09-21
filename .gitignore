@@ -52,3 +52,6 @@ npm-debug.log.*
 
 *.lock
 *-lock.json
+
+# css
+tailwind.css

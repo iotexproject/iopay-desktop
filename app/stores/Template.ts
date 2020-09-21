@@ -15,6 +15,7 @@ export class TemplateStore {
   toggleTodo(index: number) {
     this.todos[index].completed = !this.todos[index].completed;
   }
+
   @computed
   get remainingTodos(): number {
     return this.todos.filter((t) => !t.completed).length;

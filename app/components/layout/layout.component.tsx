@@ -1,5 +1,5 @@
 import React from 'react';
 
-export default function HomePage() {
+export const LayoutComponent = () => {
   return <div>123</div>;
-}
+};

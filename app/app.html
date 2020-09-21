@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <title>Hello Electron React!</title>
+    <link rel="stylesheet" href="../tailwind.css" />
     <script>
       (() => {
         if (
@@ -40,7 +41,7 @@
         if (scripts.length) {
           document.write(
             scripts
-              .map(script => `<script defer src="${script}"><\/script>`)
+              .map((script) => `<script defer src="${script}"><\/script>`)
               .join('')
           );
         }

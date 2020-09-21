@@ -1,5 +1,5 @@
-import { TemplateStore } from './Template';
 import React from 'react';
+import { TemplateStore } from './Template';
 import { BaseStore } from './base';
 
 export const StoresContext = React.createContext({

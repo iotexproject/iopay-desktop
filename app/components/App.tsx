@@ -1,10 +1,11 @@
 import React, { ReactNode } from 'react';
+import './App.scss';
 
 type Props = {
   children: ReactNode;
 };
 
-export default function App(props: Props) {
+export const App = (props: Props) => {
   const { children } = props;
   return <>{children}</>;
-}
+};

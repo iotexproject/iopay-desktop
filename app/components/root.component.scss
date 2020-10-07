@@ -1,3 +1,12 @@
-* {
-  padding: 30px;
+html {
+  margin: 0;
+  padding: 0;
+
+  --background-color-dark-1: #0c152e;
+  --background-color-dark-2: #101c3d;
+  --background-color-gray-1: rgb(237, 240, 245);
+}
+
+.wrapper {
+  height: 100%;
 }

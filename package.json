@@ -11,7 +11,7 @@
     "build-renderer": "cross-env NODE_ENV=production webpack --config ./configs/webpack.config.renderer.prod.babel.js --colors && npm run tailwind",
     "dev": "cross-env START_HOT=1 node -r @babel/register ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 yarn start-renderer-dev && npm run tailwind",
     "electron-rebuild": "electron-rebuild --parallel --force --types prod,dev,optional --module-dir app",
-    "tailwind": "npx ts-node tailwind.ts",
+    "tailwind": "ts-node tailwind.ts",
     "lint": "cross-env NODE_ENV=development eslint . --cache --ext .js,.jsx,.ts,.tsx",
     "lint-fix": "yarn --silent lint --fix",
     "lint-styles": "stylelint --ignore-path .eslintignore '**/*.*(css|scss)' --syntax scss",
@@ -242,6 +242,7 @@
     "testcafe": "^1.8.8",
     "testcafe-browser-provider-electron": "^0.0.15",
     "testcafe-react-selectors": "^4.0.0",
+    "ts-node": "^9.0.0",
     "typescript": "^3.9.7",
     "typings-for-css-modules-loader": "^1.7.0",
     "url-loader": "^4.1.0",
@@ -252,6 +253,7 @@
     "webpack-merge": "^5.0.9"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.2.2",
     "@fortawesome/fontawesome-free": "^5.14.0",
     "@hot-loader/react-dom": "^16.13.0",
     "@reduxjs/toolkit": "^1.4.0",
@@ -272,7 +274,7 @@
     "reflect-metadata": "^0.1.13",
     "regenerator-runtime": "^0.13.5",
     "source-map-support": "^0.5.19",
-    "tailwindcss": "^1.8.10"
+    "tailwindcss": "^1.8.11"
   },
   "devEngines": {
     "node": ">=7.x"

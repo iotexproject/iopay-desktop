@@ -14,7 +14,7 @@ export function Root() {
     console.log(base.NODE_ENV);
   });
   return (
-    <div className="container">
+    <div className="wrapper">
       <Router history={history}>
         <Routes />
       </Router>

@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react';
-import './App.scss';
 
 type Props = {
   children: ReactNode;

@@ -1,9 +1,13 @@
 import { WalletOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
+import { createHashHistory } from 'history';
 import { useObserver } from 'mobx-react';
 import React, { useState } from 'react';
-import { UnlockComponent } from './content/unlock.component';
+import { Route, Router, Switch, Redirect } from 'react-router';
+import { UnlockWalletComponent } from './wallet/unlock.component';
+import { WalletComponent } from './wallet/wallet.component';
 
+const history = createHashHistory();
 export const LayoutComponent = () => {
   const [collapsed, setCollapsed] = useState(false);
   return useObserver(() => {
@@ -42,7 +46,13 @@ export const LayoutComponent = () => {
             </Menu>
           </Sider>
           <Layout style={{ padding: '0 24px 24px' }}>
-            <UnlockComponent />
+            <Router history={history}>
+              <Switch>
+                <Route path="/unlock" component={UnlockWalletComponent} />
+                <Route path="/wallet" component={WalletComponent} />
+                <Redirect path="/" to="/unlock" />
+              </Switch>
+            </Router>
             <Footer
               style={{
                 textAlign: 'center',

@@ -2,9 +2,10 @@ import { WalletOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import { createHashHistory } from 'history';
 import { useObserver } from 'mobx-react';
+import { t } from 'onefx/lib/iso-i18n';
 import React, { useState } from 'react';
-import { Route, Router, Switch, Redirect } from 'react-router';
-import { UnlockWalletComponent } from './wallet/unlock.component';
+import { Redirect, Route, Router, Switch } from 'react-router';
+import { UnlockWalletComponent } from './unlock-wallet/unlock.component';
 import { WalletComponent } from './wallet/wallet.component';
 
 const history = createHashHistory();
@@ -41,7 +42,7 @@ export const LayoutComponent = () => {
                 icon={<WalletOutlined />}
                 style={{ display: 'flex', alignItems: 'center' }}
               >
-                Wallet
+                {t('wallet.title.wallet')}
               </Menu.Item>
             </Menu>
           </Sider>

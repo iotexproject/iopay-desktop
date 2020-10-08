@@ -1,10 +1,12 @@
 import React from 'react';
-import { TemplateStore } from './Template';
 import { BaseStore } from './base';
+import { UnlockStore } from './unlock.store';
+import { LangStore } from './lang';
 
 export const StoresContext = React.createContext({
   base: new BaseStore(),
-  template: new TemplateStore(),
+  wallet: new UnlockStore(),
+  lang: new LangStore(),
 });
 
 export const useStore = () => React.useContext(StoresContext);

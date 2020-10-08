@@ -4,11 +4,12 @@ import { t } from 'onefx/lib/iso-i18n';
 import React, { useState } from 'react';
 import { UnlockComponentProps } from '../../../interfaces/wallet.interface';
 import {
-  CommonMargin,
-  StyleLink,
-  WalletTitle,
+  CommonMarginComponent,
+  StyleLinkComponent,
+  WalletTitleComponent,
 } from '../../share/share.component';
-import './root.component.scss';
+import { UnlockByKeystoreFileComponent } from './unlock-by-key-store-file';
+import './unlock.component.scss';
 
 const { Content } = Layout;
 
@@ -35,18 +36,18 @@ export const UnlockWalletComponent = (props: UnlockComponentProps) => {
           <p>{t('wallet.unlock.new.p2')}</p>
         </Modal>
 
-        <WalletTitle>{t('unlock-wallet.title')}</WalletTitle>
+        <WalletTitleComponent>{t('unlock-wallet.title')}</WalletTitleComponent>
 
         {!isElectron() && (
           <>
             <Alert message={t('unlock-wallet.warn.message')} type="warning" />
-            <CommonMargin />
+            <CommonMarginComponent />
           </>
         )}
 
         <Tabs onChange={() => undefined} type="card">
           <Tabs.TabPane tab={t('unlock-wallet.by_keystore')} key="1">
-            UnlockByKeystoreFile
+            <UnlockByKeystoreFileComponent />
           </Tabs.TabPane>
           <Tabs.TabPane tab={t('unlock-wallet.by_private_key')} key="2">
             UnlockByPrivateKey
@@ -65,14 +66,14 @@ export const UnlockWalletComponent = (props: UnlockComponentProps) => {
           <p>
             {t('unlock-wallet.no-wallet')}
             {chainId === 1 ? (
-              <StyleLink
+              <StyleLinkComponent
                 style={{ paddingLeft: '10px', cursor: 'pointer' }}
                 onClick={() => {
                   setShowModal(true);
                 }}
               >
                 {t('unlock-wallet.create')}
-              </StyleLink>
+              </StyleLinkComponent>
             ) : (
               <span style={{ paddingLeft: '10px' }}>
                 {t('unlock-wallet.main-chain')}

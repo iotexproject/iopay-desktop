@@ -55,3 +55,7 @@ npm-debug.log.*
 
 # css
 tailwind.css
+
+# IDE
+.vscode
+

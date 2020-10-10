@@ -260,7 +260,6 @@
     "@ant-design/icons": "^4.2.2",
     "@fortawesome/fontawesome-free": "^5.14.0",
     "@hot-loader/react-dom": "^16.13.0",
-    "@ledgerhq/hw-transport-node-hid": "^5.26.0",
     "@ledgerhq/hw-transport-webusb": "^5.26.0",
     "@reduxjs/toolkit": "^1.4.0",
     "@stitches/react": "0.0.2",

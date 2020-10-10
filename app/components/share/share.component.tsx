@@ -16,3 +16,9 @@ export const StyleLinkComponent = styled('span', {
 export const FormLabelComponent = styled('label', {
   fontWeight: 'bold',
 });
+
+export const InputErrorComponent = styled('div', {
+  color: '#d93900 !important',
+  height: '16px',
+  lineHeight: '16px',
+});

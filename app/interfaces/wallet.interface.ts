@@ -48,3 +48,9 @@ export interface IPasswordFormInputProp {
   initialValue?: number;
   checkWeakPassword?: boolean;
 }
+
+export interface UnlockByLedgerState {
+  priKey: string;
+  errorMessage: string;
+  isPending: boolean;
+}

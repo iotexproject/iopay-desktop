@@ -1,6 +1,6 @@
 import { action, computed, observable } from 'mobx';
 import remotedev from 'mobx-remotedev';
-import { Dict } from '../interfaces/dict';
+import { Dict } from '../interfaces/dict.type';
 import { LangType } from '../interfaces/lang-type.enum';
 import de from '../translations/de.json';
 import en from '../translations/en.json';

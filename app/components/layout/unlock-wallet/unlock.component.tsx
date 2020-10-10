@@ -10,6 +10,7 @@ import {
 } from '../../share/share.component';
 import { UnlockByKeystoreFileComponent } from './unlock-by-key-store-file';
 import './unlock.component.scss';
+import { UnlockByLedgerComponent } from './unlock-by-ledger.component';
 
 const { Content } = Layout;
 
@@ -57,7 +58,7 @@ export const UnlockWalletComponent = (props: UnlockComponentProps) => {
           </Tabs.TabPane>
           {isElectron() && (
             <Tabs.TabPane tab={t('unlock-wallet.by_ledger')} key="4">
-              UnlockByLedger
+              <UnlockByLedgerComponent />
             </Tabs.TabPane>
           )}
         </Tabs>

@@ -75,7 +75,7 @@ export default merge(baseConfig, {
         ],
       },
       {
-        // antd 样式处理
+        // Handle `antd` styles
         test: /\.css$/,
         exclude: /src/,
         use: [

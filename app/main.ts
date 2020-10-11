@@ -9,12 +9,15 @@
  * `./app/main.prod.js` using webpack. This gives us some performance wins.
  */
 import 'core-js/stable';
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 import path from 'path';
 import 'regenerator-runtime/runtime';
 import MenuBuilder from './menu';
+import { IoTeXLedgerApp } from './models/iotex-ledger-app';
+
+const TransportNodeHid = require('@ledgerhq/hw-transport-node-hid').default;
 
 export default class AppUpdater {
   constructor() {
@@ -77,7 +80,7 @@ const createWindow = async () => {
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
   mainWindow.webContents.on('did-finish-load', () => {
     if (!mainWindow) {
-      throw new Error('"mainWindow" is not defined');
+      throw new Error('mainWindow is not defined');
     }
     if (process.env.START_MINIMIZED) {
       mainWindow.minimize();
@@ -116,7 +119,17 @@ if (process.env.E2E_BUILD === 'true') {
   // eslint-disable-next-line promise/catch-or-return
   app.whenReady().then(createWindow);
 } else {
-  app.on('ready', createWindow);
+  app.on('ready', async () => {
+    await createWindow();
+    ipcMain.on('getPublicKey', async (event, _path) => {
+      const transport = await TransportNodeHid.create();
+      const ioTeXLedgerApp = new IoTeXLedgerApp(transport);
+      console.log(ioTeXLedgerApp);
+      const result = await ioTeXLedgerApp.publicKey(_path);
+      await transport.close();
+      event.reply('getPublicKey-response', result);
+    });
+  });
 }
 
 app.on('activate', () => {

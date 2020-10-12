@@ -36,7 +36,7 @@ export class Keystore extends React.Component<KeystoreProps, KeystoreState> {
     }
   }
 
-  public readFileStore = (file: RcFile): boolean => {
+  public readFileStore = (file: RcFile) => {
     const { keystores } = this.state;
     const reader = new FileReader();
     // Safe check for the file size. It should be < 10KB.
@@ -140,9 +140,8 @@ export class Keystore extends React.Component<KeystoreProps, KeystoreState> {
     );
     if (keystores[keyname]) {
       this.setState({ keyname });
-      const { form } = this.props;
-      form.setFieldsValue({
-        keystore: this.state.keystores[keyname],
+      this.props.setFormFiled({ keystore: this.state.keystores[keyname] } as {
+        [key: string]: string;
       });
       xconf.setConf(XConfKeys.LAST_USED_KEYSTORE_NAME, keyname);
     }
@@ -167,9 +166,8 @@ export class Keystore extends React.Component<KeystoreProps, KeystoreState> {
   }
 
   public clearSelected = () => {
-    const { form } = this.props;
-    form.setFieldsValue({
-      keystore: '',
+    this.props.setFormFiled({ keystore: '' } as {
+      [key: string]: string;
     });
     // Clear remember for last keystore used also.
     xconf.setConf(XConfKeys.LAST_USED_KEYSTORE_NAME, '');

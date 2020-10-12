@@ -44,8 +44,8 @@ export interface IUnlockFormFields {
 }
 
 export interface IPasswordFormInputProp {
-  form: FormInstance<IUnlockFormFields>;
-  initialValue?: number;
+  setFormFiled: (obj: Partial<IUnlockFormFields>) => void;
+  initialValue?: string;
   checkWeakPassword?: boolean;
 }
 

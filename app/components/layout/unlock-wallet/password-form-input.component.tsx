@@ -6,7 +6,10 @@ import { IPasswordFormInputProp } from '../../../interfaces/wallet.interface';
 import { FormLabelComponent } from '../../share/share.component';
 
 export const PasswordFormInputItem = (prop: IPasswordFormInputProp) => {
-  const { initialValue, checkWeakPassword } = prop;
+  const { initialValue, checkWeakPassword, setFormFiled } = prop;
+  const onInput = (ev) => {
+    setFormFiled({ password: ev.target.value });
+  };
   return (
     <Form.Item
       label={
@@ -23,6 +26,7 @@ export const PasswordFormInputItem = (prop: IPasswordFormInputProp) => {
         name="password"
         autoComplete="on"
         value={initialValue}
+        onInput={onInput}
       />
     </Form.Item>
   );

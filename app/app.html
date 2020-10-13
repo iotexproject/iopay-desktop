@@ -2,7 +2,14 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Hello Electron React!</title>
+    <title>ioPay-desktop</title>
+    <link rel="stylesheet" href="../tailwind.css" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <style>
+      #root {
+        height: 100%;
+      }
+    </style>
     <script>
       (() => {
         if (
@@ -18,6 +25,7 @@
       })();
     </script>
   </head>
+
   <body>
     <div id="root"></div>
     <script>
@@ -40,7 +48,7 @@
         if (scripts.length) {
           document.write(
             scripts
-              .map(script => `<script defer src="${script}"><\/script>`)
+              .map((script) => `<script defer src="${script}"><\/script>`)
               .join('')
           );
         }

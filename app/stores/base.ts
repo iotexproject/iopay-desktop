@@ -3,5 +3,5 @@ import remotedev from 'mobx-remotedev';
 
 @remotedev({ name: 'base' })
 export class BaseStore {
-  @observable NODE_ENV = 'development';
+  @observable NODE_ENV = process.env.NODE_ENV;
 }

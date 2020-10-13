@@ -1,24 +1,13 @@
-/* eslint-disable react/jsx-curly-newline */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react/jsx-wrap-multilines */
-/* eslint-disable react/jsx-no-undef */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable promise/always-return */
-/* eslint-disable promise/catch-or-return */
 import { Button, notification } from 'antd';
 import Form, { useForm } from 'antd/lib/form/Form';
 import FormItem from 'antd/lib/form/FormItem';
 import Password from 'antd/lib/input/Password';
 import { decrypt } from 'iotex-antenna/lib/account/wallet';
-import { t } from 'onefx/lib/iso-i18n';
 import React, { useState } from 'react';
 import { IUnlockFormFields } from '../../../interfaces/wallet.interface';
 import { useStore } from '../../../stores';
 import { getAntenna } from '../../../utils/get-antenna';
-import {
-  CommonMarginComponent,
-  FormLabelComponent,
-} from '../../share/share.component';
+import { CommonMarginComponent, FormLabelComponent } from '../../../modules/stitches/component';
 import { Keystore } from './key-store.component';
 
 export const UnlockByKeystoreFileComponent = () => {
@@ -26,6 +15,7 @@ export const UnlockByKeystoreFileComponent = () => {
   const [isDecrypting, setIsDecrypting] = useState(false);
   const [form] = useForm<IUnlockFormFields>();
   const checkWeakPassword = false;
+  const { lang } = useStore();
 
   const unlockWallet = async () => {
     setIsDecrypting(true);
@@ -36,20 +26,19 @@ export const UnlockByKeystoreFileComponent = () => {
         const keyObj = JSON.parse(keystore);
         const { privateKey } = decrypt(keyObj, password);
         const antenna = getAntenna(true);
-        const account = await antenna.iotx.accounts.privateKeyToAccount(
-          privateKey
-        );
-        wallet.setAccount(account);
+        const account = await antenna.iotx.accounts.privateKeyToAccount(privateKey);
+        wallet.setAccount({ account });
       } catch (e) {
+        console.error(e);
         const msg = String(e);
         if (msg.indexOf('SyntaxError') !== -1) {
           notification.error({
-            message: t('input.error.keystore.invalid'),
+            message: lang.t('input.error.keystore.invalid'),
             duration: 5,
           });
         } else if (msg.indexOf('derivation failed')) {
           notification.error({
-            message: t('input.error.keystore.failed_to_derive'),
+            message: lang.t('input.error.keystore.failed_to_derive'),
             duration: 5,
           });
         } else {
@@ -69,39 +58,19 @@ export const UnlockByKeystoreFileComponent = () => {
   return (
     <>
       <CommonMarginComponent />
-      <Form
-        layout="vertical"
-        form={form}
-        initialValues={{ password: '', keystore: {} }}
-      >
-        <p>{t('unlock_by_keystore_file.never_upload')}</p>
+      <Form layout="vertical" form={form} initialValues={{ password: '', keystore: {} }}>
+        <p>{lang.t('unlock_by_keystore_file.never_upload')}</p>
         <Keystore setFormFiled={setFormFiled} />
         <FormItem
-          label={
-            <FormLabelComponent>
-              {t('wallet.input.password')}
-            </FormLabelComponent>
-          }
-          rules={[
-            checkWeakPassword ? { required: true, min: 6 } : { required: true },
-          ]}
+          label={<FormLabelComponent>{lang.t('wallet.input.password')}</FormLabelComponent>}
+          rules={[checkWeakPassword ? { required: true, min: 6 } : { required: true }]}
           fieldKey="password"
           key="password"
         >
-          <Password
-            className="form-input"
-            name="password"
-            autoComplete="on"
-            onInput={(ev) => onInput(ev)}
-          />
+          <Password className="form-input" name="password" autoComplete="on" onInput={(ev) => onInput(ev)} />
         </FormItem>
-        <Button
-          htmlType="submit"
-          onClick={unlockWallet}
-          disabled={isDecrypting}
-          loading={isDecrypting}
-        >
-          {t('wallet.account.unlock')}
+        <Button htmlType="submit" onClick={unlockWallet} disabled={isDecrypting} loading={isDecrypting}>
+          {lang.t('wallet.account.unlock')}
         </Button>
       </Form>
     </>

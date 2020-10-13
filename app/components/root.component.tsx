@@ -1,16 +1,24 @@
-import { initClientI18n } from 'onefx/lib/iso-i18n';
+
 import React from 'react';
+import { css } from '../modules/stitches';
 import { useStore } from '../stores';
 import { App } from './App';
 import { LayoutComponent } from './layout/layout.component';
-import './root.component.scss';
+import { cssUtils } from '../modules/stitches/css';
+
+
+css.global({
+  html: {
+    margin: 0,
+    padding: 0 ,
+  }
+})
 
 export function Root() {
   const { lang } = useStore();
   lang.init();
-  initClientI18n(lang.translation);
   return (
-    <div className="wrapper">
+    <div className={cssUtils.wrapper}>
       <App>
         <LayoutComponent />
       </App>

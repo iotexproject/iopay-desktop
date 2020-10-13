@@ -1,4 +1,3 @@
-import { Account } from 'iotex-antenna/lib/account/account';
 import { action, observable } from 'mobx';
 import { IWalletState } from '../interfaces/wallet.interface';
 
@@ -12,7 +11,7 @@ export class UnlockStore {
   };
 
   @action.bound
-  setAccount(account?: Account, hideExport?: boolean) {
-    return { ...this.state, account, hideExport };
+  setAccount(args: Partial<IWalletState>) {
+    return Object.assign(this.state, args)
   }
 }

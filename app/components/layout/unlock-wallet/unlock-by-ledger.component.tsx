@@ -1,22 +1,21 @@
 import Button from 'antd/lib/button';
 import { RemoteAccount } from 'iotex-antenna/lib/account/account';
 import { publicKeyToAddress } from 'iotex-antenna/lib/crypto/crypto';
-import { t } from 'onefx/lib/iso-i18n';
 import React, { useState } from 'react';
 import { LedgerPlugin } from '../../../models/ledger-plugin.model';
 import { useStore } from '../../../stores';
-import { assetURL } from '../../../utils/asset-url';
+
 import { getAntenna } from '../../../utils/get-antenna';
 import { getTransportProxy } from '../../../utils/get-proxy';
-import {
-  CommonMarginComponent,
-  InputErrorComponent,
-} from '../../share/share.component';
+import { CommonMarginComponent, InputErrorComponent } from '../../../modules/stitches/component';
+
+//@ts-ignore
+import ledgerImg from '../../../../resources/images/connect-ledger.png';
 
 export const UnlockByLedgerComponent = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isPending, setIsPending] = useState(false);
-  const { wallet } = useStore();
+  const { wallet, lang } = useStore();
   const unlockWallet = async () => {
     setErrorMessage('');
     setIsPending(true);
@@ -27,24 +26,20 @@ export const UnlockByLedgerComponent = () => {
       if (!publicKey) {
         return;
       }
-      const ledgerPlugin = new LedgerPlugin(
-        [44, 304, 0, 0, 0],
-        publicKey,
-        proxy
-      );
+      const ledgerPlugin = new LedgerPlugin([44, 304, 0, 0, 0], publicKey, proxy);
       const antenna = getAntenna(true, ledgerPlugin);
 
-      const account = new RemoteAccount(
-        publicKeyToAddress(Buffer.from(publicKey).toString('hex')),
-        ledgerPlugin
-      );
+      const account = new RemoteAccount(publicKeyToAddress(Buffer.from(publicKey).toString('hex')), ledgerPlugin);
       antenna.iotx.accounts.addAccount(account);
 
       // this.props.dispatch(setAccount(account, true));
-      wallet.setAccount(account, true);
+      wallet.setAccount({
+        account,
+        hideExport: true,
+      });
     } catch (e) {
       setErrorMessage(
-        t('unlock_by_ledger.error', {
+        lang.t('unlock_by_ledger.error', {
           message: e.message || '',
         })
       );
@@ -61,7 +56,7 @@ export const UnlockByLedgerComponent = () => {
         style={{
           maxHeight: '64px',
         }}
-        src={assetURL('connect-ledger.png')}
+        src={ledgerImg}
         alt="connect ledger"
       />
 
@@ -69,13 +64,9 @@ export const UnlockByLedgerComponent = () => {
 
       <CommonMarginComponent>
         <Button htmlType="button" onClick={unlockWallet} loading={isPending}>
-          {t('wallet.account.unlock')}
+          {lang.t('wallet.account.unlock')}
         </Button>
-        {errorMessage && (
-          <InputErrorComponent style={{ color: '#d93900' }}>
-            {errorMessage}
-          </InputErrorComponent>
-        )}
+        {errorMessage && <InputErrorComponent style={{ color: '#d93900' }}>{errorMessage}</InputErrorComponent>}
       </CommonMarginComponent>
     </div>
   );

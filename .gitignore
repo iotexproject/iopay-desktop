@@ -59,3 +59,7 @@ tailwind.css
 # IDE
 .vscode
 
+# lock file
+yarn.lock
+package-lock.json
+

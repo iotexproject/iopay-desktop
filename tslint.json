@@ -1,0 +1,12 @@
+{
+  "extends": ["tslint-config-prettier"],
+  "linterOptions": {
+    "exclude": ["node_modules"]
+  },
+  "rules": {
+    "indent": [true, "spaces", 2]
+  },
+  "jsRules": {
+    "no-empty": true
+  }
+}

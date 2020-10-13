@@ -1,5 +1,6 @@
 import { FormInstance } from 'antd/lib/form/Form';
 import BigNumber from 'bignumber.js';
+import { Account } from 'iotex-antenna/lib/account/account';
 
 export interface UnlockComponentProps {
   chainId: number;

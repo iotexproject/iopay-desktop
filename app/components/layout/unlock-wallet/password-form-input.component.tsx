@@ -1,19 +1,20 @@
 import { Input } from 'antd';
 import Form from 'antd/lib/form';
-import { t } from 'onefx/lib/iso-i18n';
 import React from 'react';
+import { FormLabelComponent } from '../../../modules/stitches/component';
 import { IPasswordFormInputProp } from '../../../interfaces/wallet.interface';
-import { FormLabelComponent } from '../../share/share.component';
+import { useStore } from '../../../stores/index';
 
 export const PasswordFormInputItem = (prop: IPasswordFormInputProp) => {
   const { initialValue, checkWeakPassword, setFormFiled } = prop;
+  const {lang} = useStore()
   const onInput = (ev) => {
     setFormFiled({ password: ev.target.value });
   };
   return (
     <Form.Item
       label={
-        <FormLabelComponent>{t('wallet.input.password')}</FormLabelComponent>
+        <FormLabelComponent>{lang.t('wallet.input.password')}</FormLabelComponent>
       }
       rules={[
         checkWeakPassword ? { required: true, min: 6 } : { required: true },

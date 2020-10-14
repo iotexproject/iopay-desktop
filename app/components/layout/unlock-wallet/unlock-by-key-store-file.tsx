@@ -8,7 +8,7 @@ import { IUnlockFormFields } from '../../../interfaces/wallet.interface';
 import { useStore } from '../../../stores';
 import { getAntenna } from '../../../utils/get-antenna';
 import { CommonMarginComponent, FormLabelComponent } from '../../../modules/stitches/component';
-import { Keystore } from './key-store.component';
+import { KeystoreComponent } from './key-store.component';
 
 export const UnlockByKeystoreFileComponent = () => {
   const { wallet } = useStore();
@@ -19,17 +19,16 @@ export const UnlockByKeystoreFileComponent = () => {
 
   const unlockWallet = async () => {
     setIsDecrypting(true);
-    const values = form.getFieldsValue(['password', 'keystore']);
+    const values = form.getFieldsValue(['password', 'keystore']) as IUnlockFormFields;
     if (values && values?.password && values?.keystore) {
       const { password, keystore } = values;
       try {
-        const keyObj = JSON.parse(keystore);
-        const { privateKey } = decrypt(keyObj, password);
+        const { privateKey } = decrypt(keystore, password);
         const antenna = getAntenna(true);
         const account = await antenna.iotx.accounts.privateKeyToAccount(privateKey);
         wallet.setAccount({ account });
       } catch (e) {
-        console.error(e);
+        console.warn(e);
         const msg = String(e);
         if (msg.indexOf('SyntaxError') !== -1) {
           notification.error({
@@ -60,7 +59,7 @@ export const UnlockByKeystoreFileComponent = () => {
       <CommonMarginComponent />
       <Form layout="vertical" form={form} initialValues={{ password: '', keystore: {} }}>
         <p>{lang.t('unlock_by_keystore_file.never_upload')}</p>
-        <Keystore setFormFiled={setFormFiled} />
+        <KeystoreComponent setFormFiled={setFormFiled} />
         <FormItem
           label={<FormLabelComponent>{lang.t('wallet.input.password')}</FormLabelComponent>}
           rules={[checkWeakPassword ? { required: true, min: 6 } : { required: true }]}

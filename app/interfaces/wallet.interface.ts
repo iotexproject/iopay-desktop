@@ -1,13 +1,14 @@
 import { FormInstance } from 'antd/lib/form/Form';
 import BigNumber from 'bignumber.js';
 import { Account } from 'iotex-antenna/lib/account/account';
+import { PrivateKey } from 'iotex-antenna/lib/account/wallet';
 
 export interface UnlockComponentProps {
   chainId: number;
   setCreateNew: (param?: unknown) => unknown;
 }
 export interface IUnlockByKeyStore {
-  form: FormInstance<{ password: string; keystore: Record<string, string> }>;
+  form: FormInstance<IUnlockFormFields>;
 }
 
 export interface IRPCProvider {
@@ -40,7 +41,7 @@ export interface IWalletState {
   showUnlockModal?: boolean;
 }
 export interface IUnlockFormFields {
-  keystore: { [index: string]: string };
+  keystore: PrivateKey;
   password: string;
 }
 

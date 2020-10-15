@@ -1,39 +1,34 @@
-import { Alert, Layout, Modal, Tabs } from 'antd';
+import { Alert, Col, Layout, Modal, Tabs } from 'antd';
 import isElectron from 'is-electron';
 import React, { useState } from 'react';
 import { UnlockComponentProps } from '../../../interfaces/wallet.interface';
-import {
-  CommonMarginComponent,
-  StyleLinkComponent,
-  WalletTitleComponent,
-} from '../../../modules/stitches/component';
+import { css } from '../../../modules/stitches';
+import { CommonMarginComponent, StyleLinkComponent, WalletTitleComponent } from '../../../modules/stitches/component';
+import { useStore } from '../../../stores/index';
+import { AccountSectionComponent } from './account-section/account-section.component';
 import { UnlockByKeystoreFileComponent } from './unlock-by-key-store-file';
 import { UnlockByLedgerComponent } from './unlock-by-ledger.component';
-import { useStore } from '../../../stores/index';
-import { css } from '../../../modules/stitches';
-
-const { Content } = Layout;
+import { VersionInfoComponent } from './version-info/version-info.component';
 
 export const UnlockWalletComponent = (props: UnlockComponentProps) => {
   const [showModal, setShowModal] = useState(false);
-  const { chainId } = props;
-  const {lang} = useStore()
+  const [createNew, setCreateNew] = useState(false);
+  const { chainId = 1 } = props;
+  const { lang } = useStore();
   const createNewWallet = (status: boolean) => {
     setShowModal(false);
     if (status) {
-      props.setCreateNew();
+      setCreateNew(true);
     }
   };
   return (
-    <Content className={styles.unlock}>
+    <Layout.Content className={styles.unlock}>
+      <Col xs={24} sm={24} md={12} lg={10} xl={10}>
+        <VersionInfoComponent />
+        <AccountSectionComponent createNew={createNew} defaultNetworkTokens={[]} bidContractAddress={''}/>
+      </Col>
       <div>
-        <Modal
-          title={lang.t('wallet.unlock.new.title')}
-          visible={showModal}
-          onOk={() => createNewWallet(true)}
-          onCancel={() => createNewWallet(false)}
-          okText={lang.t('wallet.unlock.new.yes')}
-        >
+        <Modal title={lang.t('wallet.unlock.new.title')} visible={showModal} onOk={() => createNewWallet(true)} onCancel={() => createNewWallet(false)} okText={lang.t('wallet.unlock.new.yes')}>
           <p>{lang.t('wallet.unlock.new.p1')}</p>
           <p>{lang.t('wallet.unlock.new.p2')}</p>
         </Modal>
@@ -68,29 +63,21 @@ export const UnlockWalletComponent = (props: UnlockComponentProps) => {
           <p>
             {lang.t('unlock-wallet.no-wallet')}
             {chainId === 1 ? (
-              <StyleLinkComponent
-                style={{ paddingLeft: '10px', cursor: 'pointer' }}
-                onClick={() => {
-                  setShowModal(true);
-                }}
-              >
+              <StyleLinkComponent style={{ paddingLeft: '10px', cursor: 'pointer' }} onClick={() => setShowModal(true)}>
                 {lang.t('unlock-wallet.create')}
               </StyleLinkComponent>
             ) : (
-              <span style={{ paddingLeft: '10px' }}>
-                {lang.t('unlock-wallet.main-chain')}
-              </span>
+              <span style={{ paddingLeft: '10px' }}>{lang.t('unlock-wallet.main-chain')}</span>
             )}
           </p>
         </div>
       </div>
-    </Content>
+    </Layout.Content>
   );
 };
 
-
 const styles = {
   unlock: css({
-    userSelect: "none"
-  })
-}
+    userSelect: 'none',
+  }),
+};

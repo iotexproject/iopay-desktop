@@ -45,7 +45,7 @@ export const KeystoreComponent = (props: { setFormFiled: (param: Pick<IUnlockFor
       const keystores = xconf.getConf<PrivateKey>(XConfKeys.KEYSTORES, {} as PrivateKey);
       if (keystores[keyname]) {
         store.keyname = keyname;
-        props.setFormFiled({ keystore: store.keystores[keyname] });
+        props.setFormFiled({ keystore: JSON.parse(store.keystores[keyname]) as PrivateKey });
         xconf.setConf(XConfKeys.LAST_USED_KEYSTORE_NAME, keyname);
       }
     },

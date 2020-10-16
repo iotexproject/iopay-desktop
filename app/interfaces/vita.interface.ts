@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { IERC20 } from './erc20.interface';
+
 export interface IVita extends IERC20 {
   claim(account: Account, gasPrice: string, gasLimit: string): Promise<string>;
   claimAs(

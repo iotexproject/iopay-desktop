@@ -7,11 +7,12 @@ import { Redirect, Route, Router, Switch } from 'react-router';
 import { UnlockWalletComponent } from './unlock-wallet/unlock.component';
 import { WalletComponent } from './wallet/wallet.component';
 import { useStore } from '../../stores/index';
+import { CreateWalletComponent } from './create-wallet/create-wallet.component';
 
 const history = createHashHistory();
 export const LayoutComponent = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const {lang} = useStore()
+  const { lang } = useStore();
   return useObserver(() => {
     const { Header, Footer, Sider } = Layout;
     return (
@@ -24,25 +25,9 @@ export const LayoutComponent = () => {
           </Menu>
         </Header>
         <Layout>
-          <Sider
-            theme="dark"
-            width={200}
-            className="site-layout-background"
-            onCollapse={setCollapsed}
-            collapsed={collapsed}
-          >
-            <Menu
-              theme="dark"
-              mode="inline"
-              defaultSelectedKeys={['wallet']}
-              defaultOpenKeys={['sub1']}
-              style={{ height: '100%', borderRight: 0 }}
-            >
-              <Menu.Item
-                key="wallet"
-                icon={<WalletOutlined />}
-                style={{ display: 'flex', alignItems: 'center' }}
-              >
+          <Sider theme="dark" width={200} className="site-layout-background" onCollapse={setCollapsed} collapsed={collapsed}>
+            <Menu theme="dark" mode="inline" defaultSelectedKeys={['wallet']} defaultOpenKeys={['sub1']} style={{ height: '100%', borderRight: 0 }}>
+              <Menu.Item key="wallet" icon={<WalletOutlined />} style={{ display: 'flex', alignItems: 'center' }}>
                 {lang.t('wallet.title.wallet')}
               </Menu.Item>
             </Menu>
@@ -50,6 +35,7 @@ export const LayoutComponent = () => {
           <Layout style={{ padding: '0 24px 24px' }}>
             <Router history={history}>
               <Switch>
+                <Route path="/create-wallet" component={CreateWalletComponent} />
                 <Route path="/unlock" component={UnlockWalletComponent} />
                 <Route path="/wallet" component={WalletComponent} />
                 <Redirect path="/" to="/unlock" />

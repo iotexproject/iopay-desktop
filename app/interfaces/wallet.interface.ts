@@ -4,8 +4,6 @@ import { Account } from 'iotex-antenna/lib/account/account';
 import { PrivateKey } from 'iotex-antenna/lib/account/wallet';
 
 export interface UnlockComponentProps {
-  chainId: number;
-  setCreateNew: (param?: unknown) => unknown;
 }
 export interface IUnlockByKeyStore {
   form: FormInstance<IUnlockFormFields>;

@@ -192,6 +192,7 @@
   "wallet.account.addressPlaceHolder": "IoTeX 地址...",
   "new-wallet.copy": "复制",
   "new-wallet.created": "钱包创建了！保存你的",
+  "new-wallet.cancel": "返回",
   "new-wallet.privateKey": "私钥",
   "new-wallet.warn.cant-recover": "如果丢失它就无法恢复。",
   "new-wallet.warn.stolen": "如果您在恶意/网上诱骗网站上使用此文件，您的资金将被盗。",

@@ -267,6 +267,7 @@
   "new-wallet.button.unlock": "I understand, Unlock Wallet",
   "new-wallet.copy": "Copy",
   "new-wallet.created": "Wallet is created!",
+  "new-wallet.cancel": "cancel",
   "new-wallet.export_keystore": "Export Keystore File (UTC / JSON)",
   "new-wallet.mnemonic": "Mnemonic Phrase",
   "new-wallet.privateKey": "Private Key",

@@ -3,7 +3,7 @@ import isElectron from 'is-electron';
 import React, { useState } from 'react';
 import { Redirect } from 'react-router';
 import { CommonMarginComponent, StyleLinkComponent, WalletTitleComponent } from '../../../modules/stitches/component';
-import { useStore } from '../../../stores/index';
+import { useStore } from '../../../stores';
 import { UnlockByKeystoreFileComponent } from './unlock-by-key-store-file';
 import { UnlockByLedgerComponent } from './unlock-by-ledger.component';
 import { VersionInfoComponent } from './version-info/version-info.component';

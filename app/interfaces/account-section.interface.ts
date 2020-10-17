@@ -2,7 +2,8 @@ import { Account } from "iotex-antenna/lib/account/account";
 import { AccountMeta } from "iotex-antenna/protogen/proto/types/blockchain_pb";
 import { IAuthorizedMessage } from "./authorized-message.interface";
 import { IGasEstimation } from "./gas-estimation.interface";
-import { IRPCProvider, ITokenInfoDict } from "./wallet.interface";
+import { IRPCProvider } from "./rpc-provider.interface";
+import { ITokenInfoDict } from "./wallet.interface";
 
 export interface IAccountSectionState {
   accountMeta: AccountMeta | undefined;

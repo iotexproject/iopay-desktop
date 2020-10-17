@@ -98,18 +98,14 @@ export class Token {
     };
   }
 
-  public async getBasicTokenInfo(): Promise<ITokenBasicInfo> {
+  public async getBasicTokenInfo() {
     const api = this.api;
     const cache = xconf.getConf<{ [index: string]: ITokenBasicInfo }>(
       XConfKeys.TOKENS_BASIC_INFOS,
       {}
     );
     if (!cache[api.address]) {
-      const [name, symbol, decimals] = await Promise.all<
-        string,
-        string,
-        BigNumber
-      >([
+      const [name, symbol, decimals] = await Promise.all([
         api.name(api.address),
         api.symbol(api.address),
         api.decimals(api.address)

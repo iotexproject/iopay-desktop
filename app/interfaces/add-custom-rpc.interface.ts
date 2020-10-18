@@ -1,5 +1,5 @@
 export interface IAddCustomRPCProp {
-  onOk: () => void;
+  onOk: (values: Record<string, string>) => void;
   onCancel: () => void;
   visible: boolean;
 }

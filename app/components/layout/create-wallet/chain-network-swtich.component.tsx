@@ -2,11 +2,12 @@ import { Select } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import isBrowser from "is-browser";
 import React, { useEffect, useState } from "react";
-import { IRPCProvider } from "../../../interfaces/rpc-provider.interface";
+import { IRPCProvider, CustomRPCProvider } from "../../../interfaces/rpc-provider.interface";
 import { Token } from "../../../models/token.model";
 import { useStore } from "../../../stores";
 import { getAntenna } from "../../../utils/get-antenna";
 import { AddCustomRpcFormModal } from "./add-custom-rpc-form-modal.component";
+import { plainToClass } from "class-transformer";
 
 export const formItemLayout = {
 
@@ -60,6 +61,15 @@ export const ChainNetworkSwitchComponent = () => {
     const locName = lang.t(`multiChain.chains.${name}`);
     return locName === `multiChain.chains.${name}` ? name : locName;
   };
+  const onCreateCustomRPC = (value: Record<string, string>) => {
+    console.log(value);
+    setVisible(false);
+    if (Object.values(value).every(v => !v)) {
+      return;
+    }
+    const rpc = plainToClass(CustomRPCProvider, value);
+    wallet.addCustomRpc(rpc);
+  };
 
   useEffect(() => {
     const network = chains.find(chain => chain.name === current);
@@ -89,7 +99,7 @@ export const ChainNetworkSwitchComponent = () => {
           </Option>
         ))}
       </Select>
-      <AddCustomRpcFormModal visible={visible} onOk={() => setVisible(false)} onCancel={() => setVisible(false)} />
+      <AddCustomRpcFormModal visible={visible} onOk={onCreateCustomRPC} onCancel={() => setVisible(false)} />
     </>
   );
 };

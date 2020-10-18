@@ -25,54 +25,53 @@ export const formItemLayout = {
 export const AddCustomRpcFormModal = (prop: IAddCustomRPCProp) => {
   const [confirming] = useState(false);
   const [form] = useForm();
-  const { lang, wallet } = useStore();
-  const confirm = async () => {
+  form.setFieldsValue({ name: '2222', url: 'https://www.github.com' })
+  const { lang } = useStore();
+  const confirm = () => {
     const values = form.getFieldsValue();
-    console.log(values);
-    const validate = await form.getFieldsError(['name', 'url']);
-    console.log(validate);
-    prop.onOk();
+    prop.onOk(values);
   };
 
-  useEffect(() => {
-    form.setFieldsValue({ name: '', url: '' });
-  }, []);
+
   return (
-    <Modal
-      visible={prop.visible}
-      title={lang.t("account.addCustomRPC")}
-      onOk={confirm}
-      onCancel={prop.onCancel}
-      confirmLoading={confirming}
-      bodyStyle={{
-        paddingTop: "0px !important"
-      }}
-      destroyOnClose={true}
-      getContainer={false}
-    >
-      <Form preserve={false} form={form}>
-        <FormItem
-          label={<FormLabelComponent>{lang.t("wallet.input.name")} </FormLabelComponent>}
-          {...formItemLayout}
-          rules={[{ required: true }]}>
-          <Input
-            placeholder={lang.t("account.rpc.nameHolder")}
-            style={{ width: "100%", background: colors.black10 }}
+    <>
+      <Modal
+        visible={prop.visible}
+        title={lang.t("account.addCustomRPC")}
+        onOk={confirm}
+        onCancel={prop.onCancel}
+        confirmLoading={confirming}
+        bodyStyle={{
+          paddingTop: "0px !important"
+        }}
+        destroyOnClose={true}
+        getContainer={false}
+      >
+        <Form preserve={false} form={form}>
+          <FormItem
+            label={<FormLabelComponent>{lang.t("wallet.input.name")} </FormLabelComponent>}
+            {...formItemLayout}
+            rules={[{ required: true }]}
             name="name"
-          />
-        </FormItem>
-        <FormItem
-          label={<FormLabelComponent>{lang.t("wallet.input.url")} </FormLabelComponent>}
-          {...formItemLayout}
-          rules={[{ required: true }]}
-        >
-          <Input
-            placeholder="https://iotexscan.io/"
-            style={{ width: "100%", background: colors.black10 }}
+          >
+            <Input
+              placeholder={lang.t("account.rpc.nameHolder")}
+              style={{ width: "100%", background: colors.black10 }}
+            />
+          </FormItem>
+          <FormItem
+            label={<FormLabelComponent>{lang.t("wallet.input.url")} </FormLabelComponent>}
+            {...formItemLayout}
+            rules={[{ required: true }]}
             name="url"
-          />
-        </FormItem>
-      </Form>
-    </Modal>
+          >
+            <Input
+              placeholder="https://iotexscan.io/"
+              style={{ width: "100%", background: colors.black10 }}
+            />
+          </FormItem>
+        </Form>
+      </Modal>
+    </>
   );
 }

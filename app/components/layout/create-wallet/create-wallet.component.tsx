@@ -20,6 +20,11 @@ export const CreateWalletComponent = () => {
   );
   const history = useHistory();
   const [form] = useForm();
+
+  const confirm = () => {
+    wallet.setAccount({ account });
+    history.push('/wallet');
+  }
   return useObserver(() => {
     return (
       <>
@@ -81,7 +86,7 @@ export const CreateWalletComponent = () => {
               showIcon={true}
             />
             <CommonMarginComponent />
-            <Button href="#" type="primary" onClick={() => wallet.setAccount({ account })}>
+            <Button type="primary" onClick={confirm}>
               {lang.t("new-wallet.button.unlock")}
             </Button>
           </Col>

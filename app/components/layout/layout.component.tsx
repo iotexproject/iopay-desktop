@@ -29,7 +29,7 @@ export const LayoutComponent = () => {
           <Layout>
             <Sider theme="dark" width={200} className="site-layout-background" onCollapse={setCollapsed} collapsed={collapsed}>
               <Menu theme="dark" mode="inline" defaultSelectedKeys={['wallet']} defaultOpenKeys={['sub1']} style={{ height: '100%', borderRight: 0 }}>
-                <Menu.Item key="wallet" icon={<WalletOutlined />} style={{ display: 'flex', alignItems: 'center' }}>
+                <Menu.Item key="wallet" icon={<WalletOutlined />} className="flex items-center">
                   <Link to="/unlock" >{lang.t('wallet.title.wallet')}</Link>
                 </Menu.Item>
               </Menu>

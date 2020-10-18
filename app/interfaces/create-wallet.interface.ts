@@ -7,24 +7,24 @@ export interface ICreateWallet {
 }
 
 export interface ICreateWalletState {
-    accountMeta: AccountMeta;
-    tokenInfos: Dict;
-    customTokensFormVisible: boolean;
-    accountCheckID: string;
-    isLoading: boolean;
-    isClaimingVita: boolean;
-    isSyncing: boolean;
-    claimConfirmationVisible: boolean;
-    claimTokenAddress: string;
-    authorizedMessageFormVisible: boolean;
-    generateAuthMessageFormVisible: boolean;
-    authMessage: IAuthorizedMessage | null;
-    bidConfirmationVisible: boolean;
-    isBidding: boolean;
-    bidFormModalVisible: boolean;
-    bidAmount: string;
-    gasEstimation: IGasEstimation | null;
-    claimable: boolean;
-    claimableAmount: number;
-    showBalance: boolean;
+  accountMeta: AccountMeta;
+  tokenInfos: Dict;
+  customTokensFormVisible: boolean;
+  accountCheckID: string;
+  isLoading: boolean;
+  isClaimingVita: boolean;
+  isSyncing: boolean;
+  claimConfirmationVisible: boolean;
+  claimTokenAddress: string;
+  authorizedMessageFormVisible: boolean;
+  generateAuthMessageFormVisible: boolean;
+  authMessage: IAuthorizedMessage | null;
+  bidConfirmationVisible: boolean;
+  isBidding: boolean;
+  bidFormModalVisible: boolean;
+  bidAmount: string;
+  gasEstimation: IGasEstimation | null;
+  claimable: boolean;
+  claimableAmount: number;
+  showBalance: boolean;
 }

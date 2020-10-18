@@ -1,13 +1,12 @@
 import { Select } from "antd";
-import { useForm } from "antd/lib/form/Form";
+import { plainToClass } from "class-transformer";
 import isBrowser from "is-browser";
 import React, { useEffect, useState } from "react";
-import { IRPCProvider, CustomRPCProvider } from "../../../interfaces/rpc-provider.interface";
+import { CustomRPCProvider, IRPCProvider } from "../../../interfaces/rpc-provider.interface";
 import { Token } from "../../../models/token.model";
 import { useStore } from "../../../stores";
 import { getAntenna } from "../../../utils/get-antenna";
 import { AddCustomRpcFormModal } from "./add-custom-rpc-form-modal.component";
-import { plainToClass } from "class-transformer";
 
 export const formItemLayout = {
 
@@ -31,7 +30,6 @@ export const setProviderNetwork = (network: IRPCProvider) => {
 
 export const ChainNetworkSwitchComponent = () => {
   const { Option } = Select;
-  const [form] = useForm();
   const [visible, setVisible] = useState(false);
   const [supportTokens, setSupportTokens] = useState<string[]>([]);
   const { wallet, lang, base: { multiChain, defaultERC20Tokens } } = useStore();

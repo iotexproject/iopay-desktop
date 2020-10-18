@@ -1,7 +1,7 @@
 import { Alert, Col, Layout, Modal, Tabs } from 'antd';
 import isElectron from 'is-electron';
 import React, { useState } from 'react';
-import { Redirect } from 'react-router';
+import { useHistory } from 'react-router';
 import { CommonMarginComponent, StyleLinkComponent, WalletTitleComponent } from '../../../modules/stitches/component';
 import { useStore } from '../../../stores';
 import { UnlockByKeystoreFileComponent } from './unlock-by-key-store-file';
@@ -13,15 +13,18 @@ export const UnlockWalletComponent = () => {
   const [createNew, setCreateNew] = useState(false);
   const [channeIndex, setChanneIndex] = useState(1);
   const { lang } = useStore();
+  const history = useHistory();
   const createNewWallet = (status: boolean) => {
     setShowModal(false);
     setCreateNew(status);
+    if (status) {
+      history.push('/create-wallet');
+    }
   };
   return (
     <Layout.Content>
       <Col xs={24} sm={24} md={12} lg={10} xl={10}>
         <VersionInfoComponent />
-        {createNew && <Redirect to={{ pathname: '/create-wallet', state: {} }} />}
       </Col>
       <div>
         <Modal title={lang.t('wallet.unlock.new.title')} visible={showModal} onOk={() => createNewWallet(true)} onCancel={() => createNewWallet(false)} okText={lang.t('wallet.unlock.new.yes')}>
@@ -40,7 +43,7 @@ export const UnlockWalletComponent = () => {
 
         <Tabs onChange={(key) => setChanneIndex(Number(key))} type="card">
           <Tabs.TabPane tab={lang.t('unlock-wallet.by_keystore')} key={1}>
-            <UnlockByKeystoreFileComponent />
+            <UnlockByKeystoreFileComponent onUnlock={() => history.push('/wallet')} />
           </Tabs.TabPane>
           <Tabs.TabPane tab={lang.t('unlock-wallet.by_private_key')} key={2}>
             UnlockByPrivateKey
@@ -63,8 +66,8 @@ export const UnlockWalletComponent = () => {
                 {lang.t('unlock-wallet.create')}
               </StyleLinkComponent>
             ) : (
-              <StyleLinkComponent style={{ paddingLeft: '10px', cursor: 'pointer' }}>{lang.t('unlock-wallet.main-chain')}</StyleLinkComponent>
-            )}
+                <StyleLinkComponent style={{ paddingLeft: '10px', cursor: 'pointer' }}>{lang.t('unlock-wallet.main-chain')}</StyleLinkComponent>
+              )}
           </p>
         </div>
       </div>

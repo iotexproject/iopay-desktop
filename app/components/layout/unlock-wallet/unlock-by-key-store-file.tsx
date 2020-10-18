@@ -5,12 +5,12 @@ import Password from 'antd/lib/input/Password';
 import { decrypt } from 'iotex-antenna/lib/account/wallet';
 import React, { useState } from 'react';
 import { IUnlockFormFields } from '../../../interfaces/wallet.interface';
+import { CommonMarginComponent, FormLabelComponent } from '../../../modules/stitches/component';
 import { useStore } from '../../../stores';
 import { getAntenna } from '../../../utils/get-antenna';
-import { CommonMarginComponent, FormLabelComponent } from '../../../modules/stitches/component';
 import { KeystoreComponent } from './key-store.component';
 
-export const UnlockByKeystoreFileComponent = () => {
+export const UnlockByKeystoreFileComponent = (prop: { onUnlock: () => void }) => {
   const { wallet } = useStore();
   const [isDecrypting, setIsDecrypting] = useState(false);
   const [form] = useForm<IUnlockFormFields>();
@@ -18,6 +18,7 @@ export const UnlockByKeystoreFileComponent = () => {
   const { lang } = useStore();
 
   const unlockWallet = async () => {
+    prop.onUnlock();
     setIsDecrypting(true);
     const values = form.getFieldsValue(['password', 'keystore']) as IUnlockFormFields;
     if (values && values?.password && values?.keystore) {
@@ -26,6 +27,7 @@ export const UnlockByKeystoreFileComponent = () => {
         const { privateKey } = decrypt(keystore, password);
         const antenna = getAntenna(true);
         const account = await antenna.iotx.accounts.privateKeyToAccount(privateKey);
+        console.log(account);
         wallet.setAccount({ account });
       } catch (e) {
         console.warn(e);
@@ -44,8 +46,8 @@ export const UnlockByKeystoreFileComponent = () => {
           notification.error({ message: String(e), duration: 5 });
         }
       }
+      setIsDecrypting(false);
     }
-    setIsDecrypting(false);
   };
 
   const setFormFiled = async (obj: Partial<IUnlockFormFields>) => {

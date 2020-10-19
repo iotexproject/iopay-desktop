@@ -593,7 +593,7 @@
   "wallet.write.contract.p3": "Amount to send. In most cases you should leave it as 0.",
   "wallet.write.contract.title": "Warining",
   "wallet.desktop.app": "ioPay Desktop v${appVersion}",
-  "wallet.desktop.appVersion": "Version: ${appVersion}",
+  "wallet.desktop.appVersion": "Version: ",
   "wallet.send-receive.title": "Send and Receive IOTX",
   "ok": "OK",
   "wallet.logout.success": "You have successfully logged out your current wallet.",

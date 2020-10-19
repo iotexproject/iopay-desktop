@@ -16,7 +16,7 @@ export const UnlockByKeystoreFileComponent = (prop: { onUnlock: () => void }) =>
   const [form] = useForm<IUnlockFormFields>();
   const checkWeakPassword = false;
   const { lang } = useStore();
-
+  console.log(isDecrypting);
   const unlockWallet = async () => {
     prop.onUnlock();
     setIsDecrypting(true);

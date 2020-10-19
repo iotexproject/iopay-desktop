@@ -1,4 +1,4 @@
-import Icon from '@ant-design/icons';
+import Icon, { LeftSquareOutlined } from '@ant-design/icons';
 import { Alert, Button, Card, Col, Form, Input, Row } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import FormItem from 'antd/lib/form/FormItem';
@@ -29,7 +29,8 @@ export const CreateWalletComponent = () => {
     return (
       <>
         <Row>
-          <Button size="small" type="primary" onClick={() => history.push('/unlock')}>
+          <Button size="large" type="primary" onClick={() => history.push('/unlock')} className="flex items-center">
+            <LeftSquareOutlined />
             {lang.t('new-wallet.cancel')}
           </Button>
         </Row>

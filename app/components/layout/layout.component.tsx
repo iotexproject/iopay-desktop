@@ -27,14 +27,14 @@ export const LayoutComponent = () => {
             </Menu>
           </Header>
           <Layout>
-            <Sider theme="dark" width={200} className="site-layout-background" onCollapse={setCollapsed} collapsed={collapsed}>
+            <Sider collapsible={true} theme="dark" width={200} className="site-layout-background" onCollapse={setCollapsed} collapsed={collapsed}>
               <Menu theme="dark" mode="inline" defaultSelectedKeys={['wallet']} defaultOpenKeys={['sub1']} style={{ height: '100%', borderRight: 0 }}>
                 <Menu.Item key="wallet" icon={<WalletOutlined />} className="flex items-center">
                   <Link to="/unlock" >{lang.t('wallet.title.wallet')}</Link>
                 </Menu.Item>
               </Menu>
             </Sider>
-            <Layout style={{ padding: '0 24px 24px' }}>
+            <Layout className="pt-1 pl-1">
               <Switch>
                 <Route path="/create-wallet" component={CreateWalletComponent} />
                 <Route path="/unlock" component={UnlockWalletComponent} />

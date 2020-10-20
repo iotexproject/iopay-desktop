@@ -15,8 +15,6 @@ import { IGasEstimation } from "../interfaces/gas-estimation.interface";
 import { Method } from "../interfaces/method.interface";
 import { getAntenna } from "../utils/get-antenna";
 
-
-// TODO: Remove all of @ts-ignore comment!
 export class ERC20 implements IERC20 {
   @Type()
   public address: string = '';

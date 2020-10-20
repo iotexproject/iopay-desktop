@@ -47,6 +47,8 @@ const createWindow = async () => {
     show: false,
     width: 1024,
     height: 728,
+    minWidth: 755,
+    minHeight: 549,
     webPreferences:
       (process.env.NODE_ENV === 'development' ||
         process.env.E2E_BUILD === 'true') &&
@@ -60,9 +62,7 @@ const createWindow = async () => {
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
 
-  // @TODO: Use 'ready-to-show' event
-  //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
-  mainWindow.webContents.on('did-finish-load', () => {
+  mainWindow.on('ready-to-show', () => {
     if (!mainWindow) {
       throw new Error('mainWindow is not defined');
     }
@@ -73,6 +73,8 @@ const createWindow = async () => {
       mainWindow.focus();
     }
   });
+  // mainWindow.webContents.on('did-finish-load', () => {
+  // });
 
   mainWindow.on('closed', () => {
     mainWindow = null;

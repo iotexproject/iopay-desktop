@@ -11,13 +11,11 @@ import { EmptyWalletComponent } from './empty-wallet/empty-wallet.component';
 
 export const UnlockWalletComponent = () => {
   const [showModal, setShowModal] = useState(false);
-  const [createNew, setCreateNew] = useState(false);
   const [channeIndex, setChanneIndex] = useState(1);
   const { lang } = useStore();
   const history = useHistory();
   const createNewWallet = (status: boolean) => {
     setShowModal(false);
-    setCreateNew(status);
     if (status) {
       history.push('/create-wallet');
     }
@@ -47,10 +45,10 @@ export const UnlockWalletComponent = () => {
               </Tabs.TabPane>
               <Tabs.TabPane tab={lang.t('unlock-wallet.by_private_key')} key={2}>
                 UnlockByPrivateKey
-        </Tabs.TabPane>
+              </Tabs.TabPane>
               <Tabs.TabPane tab={lang.t('unlock-wallet.by_mnemonic')} key={3}>
                 UnlockByMnemonic
-        </Tabs.TabPane>
+              </Tabs.TabPane>
               {isElectron() && (
                 <Tabs.TabPane tab={lang.t('unlock-wallet.by_ledger')} key={4}>
                   <UnlockByLedgerComponent />
@@ -66,12 +64,11 @@ export const UnlockWalletComponent = () => {
                     {lang.t('unlock-wallet.create')}
                   </StyleLinkComponent>
                 ) : (
-                    <StyleLinkComponent style={{ paddingLeft: '10px', cursor: 'pointer' }}>{lang.t('unlock-wallet.main-chain')}</StyleLinkComponent>
-                  )}
+                  <StyleLinkComponent style={{ paddingLeft: '10px', cursor: 'pointer' }}>{lang.t('unlock-wallet.main-chain')}</StyleLinkComponent>
+                )}
               </p>
             </div>
           </div>
-
         </Col>
 
         <Col className="px-4" xs={24} sm={24} md={12} lg={10} xl={10}>

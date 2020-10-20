@@ -25,7 +25,7 @@ export const formItemLayout = {
 export const AddCustomRpcFormModal = (prop: IAddCustomRPCProp) => {
   const [confirming] = useState(false);
   const [form] = useForm();
-  form.setFieldsValue({ name: '2222', url: 'https://www.github.com' })
+  form.setFieldsValue({ name: '', url: '' })
   const { lang } = useStore();
   const confirm = () => {
     const values = form.getFieldsValue();

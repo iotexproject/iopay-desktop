@@ -16,8 +16,7 @@ export const UnlockByKeystoreFileComponent = (prop: { onUnlock: () => void }) =>
   const [form] = useForm<IUnlockFormFields>();
   const checkWeakPassword = false;
   const { lang } = useStore();
-  console.log(isDecrypting);
-  const unlockWallet = async () => {
+  const unlockWallet = () => {
     prop.onUnlock();
     setIsDecrypting(true);
     const values = form.getFieldsValue(['password', 'keystore']) as IUnlockFormFields;
@@ -26,7 +25,7 @@ export const UnlockByKeystoreFileComponent = (prop: { onUnlock: () => void }) =>
       try {
         const { privateKey } = decrypt(keystore, password);
         const antenna = getAntenna(true);
-        const account = await antenna.iotx.accounts.privateKeyToAccount(privateKey);
+        const account = antenna.iotx.accounts.privateKeyToAccount(privateKey);
         console.log(account);
         wallet.setAccount({ account });
       } catch (e) {

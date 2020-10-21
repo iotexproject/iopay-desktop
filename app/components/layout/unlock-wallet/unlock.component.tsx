@@ -41,7 +41,7 @@ export const UnlockWalletComponent = () => {
 
             <Tabs onChange={(key) => setChanneIndex(Number(key))} type="card">
               <Tabs.TabPane tab={lang.t('unlock-wallet.by_keystore')} key={1}>
-                <UnlockByKeystoreFileComponent onUnlock={() => history.push('/wallet')} />
+                <UnlockByKeystoreFileComponent />
               </Tabs.TabPane>
               <Tabs.TabPane tab={lang.t('unlock-wallet.by_private_key')} key={2}>
                 UnlockByPrivateKey

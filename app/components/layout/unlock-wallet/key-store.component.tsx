@@ -1,5 +1,5 @@
 import Icon from '@ant-design/icons';
-import { Button, Dropdown, Form, Menu, notification, Tag } from 'antd';
+import { Button, Dropdown, Menu, notification, Tag } from 'antd';
 import Upload, { RcFile } from 'antd/lib/upload';
 import { PrivateKey } from 'iotex-antenna/lib/account/wallet';
 import isElectron from 'is-electron';
@@ -7,7 +7,6 @@ import { useLocalStore, useObserver } from 'mobx-react';
 import React, { useEffect } from 'react';
 import { IUnlockFormFields } from '../../../interfaces/wallet.interface';
 import { xconf, XConfKeys } from '../../../models/xconf.enum';
-import { FormLabelComponent } from '../../../modules/stitches/component';
 import { useStore } from '../../../stores/index';
 
 declare const window: any;
@@ -105,6 +104,7 @@ export const KeystoreComponent = (props: { setFormFiled: (param: Pick<IUnlockFor
 
     if (!keystoresList.length || !isElectron()) {
       return (
+        // FIXME: Listen the file change, and emit data to parent component.
         <Upload {...uploadProps}>
           <Button>
             <Icon type="key" />
@@ -143,12 +143,7 @@ export const KeystoreComponent = (props: { setFormFiled: (param: Pick<IUnlockFor
   };
 
   return useObserver(() => (
-    <Form.Item
-      label={<FormLabelComponent>{lang.t('wallet.input.keystore')}</FormLabelComponent>}
-      rules={[{ required: true, message: lang.t('input.error.keystore.require') }]}
-      fieldKey="keystore"
-      key="keystore"
-    >
+    <>
       {renderKeystoreMenu()}
       <div>
         {store.keyname ? (
@@ -165,6 +160,6 @@ export const KeystoreComponent = (props: { setFormFiled: (param: Pick<IUnlockFor
           </Tag>
         ) : null}
       </div>
-    </Form.Item>
+    </>
   ));
 };

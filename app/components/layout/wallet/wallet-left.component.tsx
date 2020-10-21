@@ -16,7 +16,7 @@ export const WalletLeftComponent = () => {
         2
       </TabPane>
       {wallet.state.account && (
-        <TabPane tab={lang.t('wallet.tab.sign')} key={`sign`}>
+        <TabPane tab={lang.t('wallet.tab.keystore')} key={`sign`}>
           3
         </TabPane>
       )}

@@ -3,8 +3,6 @@ import { colors } from '../../../../constants/colors';
 import { SimpleFlexComponent } from '../../../../modules/stitches/component';
 import { useStore } from '../../../../stores';
 const pkg = require('../../../../package.json');
-console.log(pkg);
-declare const window: any;
 
 export const VersionInfoComponent = () => {
   const { lang } = useStore();

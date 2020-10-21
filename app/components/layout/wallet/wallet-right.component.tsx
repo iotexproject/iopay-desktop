@@ -1,14 +1,18 @@
-import Icon, { SyncOutlined } from '@ant-design/icons';
+import { PlusOutlined, RetweetOutlined, SyncOutlined } from '@ant-design/icons';
 import { Card, Col, Row, Tooltip } from 'antd';
+import { Account } from 'iotex-antenna/lib/account/account';
 import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 import { colors } from '../../../constants/colors';
 import { ICreateWalletState } from '../../../interfaces/create-wallet.interface';
 import { AccountMeta } from '../../../models/account-meta';
 import { useStore } from '../../../stores';
 import { ChainNetworkSwitchComponent } from '../create-wallet/chain-network-swtich.component';
+import { CustomTokenModalComponent } from './custom-token-modal/custom-token-modal.component';
 
 export const WalletRightComponent = () => {
   const { wallet, lang } = useStore();
+  const history = useHistory();
   const [state, setState] = useState<ICreateWalletState>({
     accountMeta: {} as AccountMeta,
     tokenInfos: {},
@@ -38,6 +42,10 @@ export const WalletRightComponent = () => {
     pollAccount();
   };
   const pollAccount = () => {};
+  const onSwitchAccount = () => {
+    wallet.setAccount({ account: {} as Account });
+    history.push('/unlock');
+  };
 
   return (
     <Card style={{ background: 'none' }} className="transform motion-reduce:transform-none hover:-translate-y-1 hover:scale-110 transition ease-in-out duration-300">
@@ -48,15 +56,18 @@ export const WalletRightComponent = () => {
           borderRadius: '5px 5px 0px 0px',
         }}
       >
-        <Row justify="space-between" align="middle" style={{ paddingBottom: 5 }}>
-          <Col style={{ cursor: 'pointer', fontSize: 13 }} onClick={() => wallet.setAccount()}>
-            <Icon type="retweet" /> {lang.t('account.switchAccount')}
+        <Row className="pb-4 justify-between">
+          <Col className="justify-between items-center flex cursor-pointer text-base cursor-pointer" onClick={onSwitchAccount}>
+            <RetweetOutlined />
+            {lang.t('account.switchAccount')}
           </Col>
-          <Col style={{ cursor: 'pointer', fontSize: 13 }} onClick={() => deepSetter({ customTokensFormVisible: true })}>
-            <Icon type="plus" /> {lang.t('account.token.addCustom')}
+          <Col className="justify-between items-center flex cursor-pointer text-base" onClick={() => deepSetter({ customTokensFormVisible: true })}>
+            <PlusOutlined />
+            {lang.t('account.token.addCustom')}
           </Col>
+          <CustomTokenModalComponent onDestory={() => deepSetter({ customTokensFormVisible: false })} visible={state.customTokensFormVisible} />
         </Row>
-        <Row justify="space-between" align="middle" style={{ paddingTop: 10 }}>
+        <Row className="pt-10">
           <Col xs={20}>
             <ChainNetworkSwitchComponent />
           </Col>

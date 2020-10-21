@@ -110,7 +110,6 @@ if (process.env.E2E_BUILD === 'true') {
     ipcMain.on('getPublicKey', async (event, _path) => {
       const transport = await TransportNodeHid.create();
       const ioTeXLedgerApp = new IoTeXLedgerApp(transport);
-      console.log(ioTeXLedgerApp);
       const result = await ioTeXLedgerApp.publicKey(_path);
       await transport.close();
       event.reply('getPublicKey-response', result);

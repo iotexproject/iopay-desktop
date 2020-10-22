@@ -1,34 +1,32 @@
 import Icon from '@ant-design/icons';
-import { Button, Dropdown, Form, Menu, notification, Tag } from 'antd';
+import { Button, Dropdown, Menu, notification, Tag } from 'antd';
 import Upload, { RcFile } from 'antd/lib/upload';
+import { PrivateKey } from 'iotex-antenna/lib/account/wallet';
 import isElectron from 'is-electron';
-import React from 'react';
+import { useLocalStore, useObserver } from 'mobx-react';
+import React, { useEffect } from 'react';
+import { IUnlockFormFields } from '../../../interfaces/wallet.interface';
 import { xconf, XConfKeys } from '../../../models/xconf.enum';
 import { useStore } from '../../../stores/index';
-import { useObserver, useLocalStore } from 'mobx-react';
-import { FormLabelComponent } from '../../../modules/stitches/component';
 
 declare const window: any;
 
 window.xconf = xconf;
 
-export const Keystore = (props: { setFormFiled: Function }) => {
+export const KeystoreComponent = (props: { setFormFiled: (param: Pick<IUnlockFormFields, 'keystore'>) => void }) => {
   const { lang } = useStore();
-
   const store = useLocalStore(() => ({
-    keystores: xconf.getConf(XConfKeys.KEYSTORES, {}),
+    keystores: xconf.getConf<PrivateKey>(XConfKeys.KEYSTORES, {} as PrivateKey),
     keyname: xconf.getConf(XConfKeys.LAST_USED_KEYSTORE_NAME, ''),
     clearSelected: () => {
-      props.setFormFiled({ keystore: '' } as {
-        [key: string]: string;
-      });
+      props.setFormFiled({ keystore: {} as PrivateKey });
       // Clear remember for last keystore used also.
       xconf.setConf(XConfKeys.LAST_USED_KEYSTORE_NAME, '');
       store.keyname = '';
     },
     deleteKeystore(keyname: string): boolean {
       const { keystores } = store;
-      const newKeystores: { [index: string]: string } = {};
+      const newKeystores = {} as PrivateKey;
       Object.keys(keystores).forEach((name) => {
         if (name !== keyname) {
           newKeystores[name] = keystores[name];
@@ -39,19 +37,16 @@ export const Keystore = (props: { setFormFiled: Function }) => {
       }
       store.keystores = newKeystores;
       // Update keystores list
-      xconf.setConf(XConfKeys.KEYSTORES, newKeystores);
+      xconf.setConf<PrivateKey>(XConfKeys.KEYSTORES, newKeystores);
       return true;
     },
-    selectKeystore(keyname: string): boolean {
-      const keystores = xconf.getConf<{ [index: string]: string }>(XConfKeys.KEYSTORES, {});
+    selectKeystore(keyname: string) {
+      const keystores = xconf.getConf<PrivateKey>(XConfKeys.KEYSTORES, {} as PrivateKey);
       if (keystores[keyname]) {
         store.keyname = keyname;
-        props.setFormFiled({ keystore: store.keystores[keyname] } as {
-          [key: string]: string;
-        });
+        props.setFormFiled({ keystore: JSON.parse(store.keystores[keyname]) as PrivateKey });
         xconf.setConf(XConfKeys.LAST_USED_KEYSTORE_NAME, keyname);
       }
-      return true;
     },
     readFileStore: (file: RcFile) => {
       const { keystores } = store;
@@ -76,6 +71,7 @@ export const Keystore = (props: { setFormFiled: Function }) => {
 
             // Select current file store.
             store.selectKeystore(file.name);
+            props.setFormFiled({ keystore: JSON.parse(store.keystores[file.name]) as PrivateKey });
           } else {
             throw new Error(lang.t('input.error.keystore.invalid'));
           }
@@ -90,7 +86,13 @@ export const Keystore = (props: { setFormFiled: Function }) => {
       return false;
     },
   }));
-
+  // Init default selected file from localstorage.
+  useEffect(() => {
+    const { keyname } = store;
+    if (keyname) {
+      store.selectKeystore(keyname);
+    }
+  }, [store.keyname]);
   const renderKeystoreMenu = () => {
     const { keystores } = store;
     const keystoresList = Object.keys(keystores);
@@ -102,6 +104,7 @@ export const Keystore = (props: { setFormFiled: Function }) => {
 
     if (!keystoresList.length || !isElectron()) {
       return (
+        // FIXME: Listen the file change, and emit data to parent component.
         <Upload {...uploadProps}>
           <Button>
             <Icon type="key" />
@@ -140,12 +143,7 @@ export const Keystore = (props: { setFormFiled: Function }) => {
   };
 
   return useObserver(() => (
-    <Form.Item
-      label={<FormLabelComponent>{lang.t('wallet.input.keystore')}</FormLabelComponent>}
-      rules={[{ required: true, message: lang.t('input.error.keystore.require') }]}
-      fieldKey="keystore"
-      key="keystore"
-    >
+    <>
       {renderKeystoreMenu()}
       <div>
         {store.keyname ? (
@@ -162,6 +160,6 @@ export const Keystore = (props: { setFormFiled: Function }) => {
           </Tag>
         ) : null}
       </div>
-    </Form.Item>
+    </>
   ));
 };

@@ -1,19 +1,15 @@
 import { FormInstance } from 'antd/lib/form/Form';
 import BigNumber from 'bignumber.js';
 import { Account } from 'iotex-antenna/lib/account/account';
+import { PrivateKey } from 'iotex-antenna/lib/account/wallet';
+import { IRPCProvider } from './rpc-provider.interface';
 
 export interface UnlockComponentProps {
-  chainId: number;
-  setCreateNew: (param?: unknown) => unknown;
 }
 export interface IUnlockByKeyStore {
-  form: FormInstance<{ password: string; keystore: Record<string, string> }>;
+  form: FormInstance<IUnlockFormFields>;
 }
 
-export interface IRPCProvider {
-  name: string;
-  url: string;
-}
 
 export interface ITokenInfo {
   tokenAddress: string;
@@ -32,15 +28,15 @@ export interface IWalletState {
   account?: Account;
   hideExport?: boolean;
   network?: IRPCProvider;
-  customRPCs: Array<IRPCProvider>;
-  tokens: ITokenInfoDict;
+  customRPCs: IRPCProvider[];
+  tokens: string[];
   defaultNetworkTokens: Array<string>;
   lockAt?: number; // milliseconds to lock wallet. 0: never lock. 1: never to reset it;
   isLockDelayed?: boolean;
   showUnlockModal?: boolean;
 }
 export interface IUnlockFormFields {
-  keystore: { [index: string]: string };
+  keystore: PrivateKey;
   password: string;
 }
 

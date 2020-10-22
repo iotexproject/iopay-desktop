@@ -33,3 +33,5 @@ export const ERROR_DESCRIPTION = {
   0x6f00: 'Unknown error',
   0x6f01: 'Sign/verify error',
 };
+
+export const GAS_LIMIT_MULTIPLIED_BY = 3;

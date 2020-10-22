@@ -39,7 +39,7 @@ export class LangStore {
     this.lang = lang;
   }
 
-  public t(str: keyof Dict, data?: Dict):string {
+  public t(str: keyof Dict, data?: Dict): string {
     let processed = this.translation[str] || this.translations.en[str];
     if (!processed) {
       return String(str);

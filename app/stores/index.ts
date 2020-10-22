@@ -1,11 +1,11 @@
 import React from 'react';
-import { BaseStore } from './base';
-import { UnlockStore } from './unlock.store';
-import { LangStore } from './lang';
+import { BaseStore } from './base.store';
+import { WalletStore } from './wallet.store';
+import { LangStore } from './lang.store';
 
 export const StoresContext = React.createContext({
   base: new BaseStore(),
-  wallet: new UnlockStore(),
+  wallet: new WalletStore(),
   lang: new LangStore(),
 });
 

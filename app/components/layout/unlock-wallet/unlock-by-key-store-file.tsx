@@ -4,72 +4,85 @@ import FormItem from 'antd/lib/form/FormItem';
 import Password from 'antd/lib/input/Password';
 import { decrypt } from 'iotex-antenna/lib/account/wallet';
 import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 import { IUnlockFormFields } from '../../../interfaces/wallet.interface';
+import { CommonMarginComponent, FormLabelComponent } from '../../../modules/stitches/component';
 import { useStore } from '../../../stores';
 import { getAntenna } from '../../../utils/get-antenna';
-import { CommonMarginComponent, FormLabelComponent } from '../../../modules/stitches/component';
-import { Keystore } from './key-store.component';
+import { KeystoreComponent } from './key-store.component';
 
 export const UnlockByKeystoreFileComponent = () => {
   const { wallet } = useStore();
   const [isDecrypting, setIsDecrypting] = useState(false);
   const [form] = useForm<IUnlockFormFields>();
-  const checkWeakPassword = false;
+  const history = useHistory();
   const { lang } = useStore();
-
-  const unlockWallet = async () => {
+  const unlockWallet = () => {
     setIsDecrypting(true);
-    const values = form.getFieldsValue(['password', 'keystore']);
-    if (values && values?.password && values?.keystore) {
-      const { password, keystore } = values;
-      try {
-        const keyObj = JSON.parse(keystore);
-        const { privateKey } = decrypt(keyObj, password);
-        const antenna = getAntenna(true);
-        const account = await antenna.iotx.accounts.privateKeyToAccount(privateKey);
-        wallet.setAccount({ account });
-      } catch (e) {
-        console.error(e);
-        const msg = String(e);
-        if (msg.indexOf('SyntaxError') !== -1) {
-          notification.error({
-            message: lang.t('input.error.keystore.invalid'),
-            duration: 5,
-          });
-        } else if (msg.indexOf('derivation failed')) {
-          notification.error({
-            message: lang.t('input.error.keystore.failed_to_derive'),
-            duration: 5,
-          });
-        } else {
-          notification.error({ message: String(e), duration: 5 });
+    // FIXME: if we do not wrapped code in setTimeout, the loading status is never shown, consider it's a bug from ANTD.
+    setTimeout(() => {
+      const values = form.getFieldsValue() as IUnlockFormFields;
+      console.log(values);
+      if (values && values?.password && values?.keystore) {
+        const { password, keystore } = values;
+        try {
+          const { privateKey } = decrypt(keystore, password);
+          const antenna = getAntenna(true);
+          const account = antenna.iotx.accounts.privateKeyToAccount(privateKey);
+          console.log(account);
+          wallet.setAccount({ account });
+          history.push('/wallet');
+        } catch (e) {
+          console.warn(e);
+          const msg = String(e);
+          if (msg.indexOf('SyntaxError') !== -1) {
+            notification.error({
+              message: lang.t('input.error.keystore.invalid'),
+              duration: 5,
+            });
+          } else if (msg.indexOf('derivation failed')) {
+            notification.error({
+              message: lang.t('input.error.keystore.failed_to_derive'),
+              duration: 5,
+            });
+          } else {
+            notification.error({ message: String(e), duration: 5 });
+          }
+        } finally {
+          setIsDecrypting(false);
         }
+      } else {
+        setIsDecrypting(false);
       }
-    }
-    setIsDecrypting(false);
+    }, 50);
   };
 
   const setFormFiled = async (obj: Partial<IUnlockFormFields>) => {
-    const values = form.getFieldsValue(['password', 'keystore']);
+    const values = form.getFieldsValue();
     form.setFieldsValue({ ...values, ...obj });
   };
 
   const onInput = (ev) => setFormFiled({ password: ev.target.value });
+
+
   return (
     <>
       <CommonMarginComponent />
       <Form layout="vertical" form={form} initialValues={{ password: '', keystore: {} }}>
         <p>{lang.t('unlock_by_keystore_file.never_upload')}</p>
-        <Keystore setFormFiled={setFormFiled} />
         <FormItem
-          label={<FormLabelComponent>{lang.t('wallet.input.password')}</FormLabelComponent>}
-          rules={[checkWeakPassword ? { required: true, min: 6 } : { required: true }]}
-          fieldKey="password"
-          key="password"
+          label={<FormLabelComponent>{lang.t('wallet.input.keystore')}</FormLabelComponent>}
+          rules={[{ required: true, message: lang.t('input.error.keystore.require') }]}
+          fieldKey="keystore"
+          name="keystore"
+          key="keystore"
         >
-          <Password className="form-input" name="password" autoComplete="on" onInput={(ev) => onInput(ev)} />
+          <KeystoreComponent setFormFiled={setFormFiled} />
         </FormItem>
-        <Button htmlType="submit" onClick={unlockWallet} disabled={isDecrypting} loading={isDecrypting}>
+        <FormItem label={<FormLabelComponent>{lang.t('wallet.input.password')}</FormLabelComponent>} rules={[{ required: true }]} fieldKey="password" key="password" name="password">
+        <Password className="form-input" name="password" autoComplete="on" onInput={(ev) => onInput(ev)} />
+        </FormItem>
+        <Button type="primary" onClick={unlockWallet} disabled={isDecrypting} loading={isDecrypting}>
           {lang.t('wallet.account.unlock')}
         </Button>
       </Form>

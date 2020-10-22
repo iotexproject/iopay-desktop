@@ -57,7 +57,7 @@ export const UnlockByKeystoreFileComponent = () => {
     }, 50);
   };
 
-  const setFormFiled = async (obj: Partial<IUnlockFormFields>) => {
+  const setFormFiled = (obj: Partial<IUnlockFormFields>) => {
     const values = form.getFieldsValue();
     form.setFieldsValue({ ...values, ...obj });
   };

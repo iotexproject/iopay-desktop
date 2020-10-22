@@ -1,13 +1,14 @@
-import { Alert, Col, Layout, Modal, Tabs, Row } from 'antd';
+import { Alert, Col, Layout, Modal, Row, Tabs } from 'antd';
 import isElectron from 'is-electron';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { CommonMarginComponent, StyleLinkComponent, WalletTitleComponent } from '../../../modules/stitches/component';
 import { useStore } from '../../../stores';
+import { EmptyWalletComponent } from './empty-wallet/empty-wallet.component';
 import { UnlockByKeystoreFileComponent } from './unlock-by-key-store-file';
 import { UnlockByLedgerComponent } from './unlock-by-ledger.component';
+import { UnlockByPrivateKeyComponent } from './unlock-by-private-key.component';
 import { VersionInfoComponent } from './version-info/version-info.component';
-import { EmptyWalletComponent } from './empty-wallet/empty-wallet.component';
 
 export const UnlockWalletComponent = () => {
   const [showModal, setShowModal] = useState(false);
@@ -44,7 +45,7 @@ export const UnlockWalletComponent = () => {
                 <UnlockByKeystoreFileComponent />
               </Tabs.TabPane>
               <Tabs.TabPane tab={lang.t('unlock-wallet.by_private_key')} key={2}>
-                UnlockByPrivateKey
+                <UnlockByPrivateKeyComponent />
               </Tabs.TabPane>
               <Tabs.TabPane tab={lang.t('unlock-wallet.by_mnemonic')} key={3}>
                 UnlockByMnemonic

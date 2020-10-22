@@ -21,8 +21,8 @@ export function getAntenna(initial?: boolean, signer?: SignerPlugin): Antenna {
     injectedWindow.antenna = new Antenna('/iotex-core-proxy', {
       ...(USE_WS_SIGNER
         ? {
-            signer: signer || new WsSignerPlugin(),
-          }
+          signer: signer || new WsSignerPlugin(),
+        }
         : {}),
     });
   }

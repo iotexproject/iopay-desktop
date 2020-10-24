@@ -43,6 +43,10 @@ if (
 
 
 const createWindow = async () => {
+  const baseConfigs = {
+    nodeIntergration: true,
+    devTools: true,
+  };
   mainWindow = new BrowserWindow({
     show: false,
     width: 1024,
@@ -50,14 +54,12 @@ const createWindow = async () => {
     minWidth: 755,
     minHeight: 549,
     webPreferences:
-      (process.env.NODE_ENV === 'development' ||
-        process.env.E2E_BUILD === 'true') &&
-      process.env.ERB_SECURE !== 'true'
-        ? { nodeIntegration: true }
-        : {
-            preload: path.join(__dirname, 'dist/renderer.prod.js'),
-            nodeIntegration: true,
-          },
+      (process.env.NODE_ENV === 'development' || process.env.E2E_BUILD === 'true') && process.env.ERB_SECURE !== 'true' ?
+        { ...baseConfigs } :
+        {
+          preload: path.join(__dirname, 'dist/renderer.prod.js'),
+          ...baseConfigs
+        },
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);

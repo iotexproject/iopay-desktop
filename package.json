@@ -53,7 +53,7 @@
     ]
   },
   "build": {
-    "productName": "ElectronReact",
+    "productName": "iopay-desktop",
     "appId": "org.develar.ElectronReact",
     "files": [
       "dist/",
@@ -81,7 +81,8 @@
       "target": [
         "nsis",
         "msi"
-      ]
+      ],
+      "icon": "resources/icons/icon.png"
     },
     "linux": {
       "target": [
@@ -218,6 +219,7 @@
     "rimraf": "^3.0.0",
     "sass": "^1.26.11",
     "sass-loader": "^8.0.2",
+    "source-map-support": "^0.5.19",
     "style-loader": "^1.1.3",
     "stylelint": "^13.6.1",
     "stylelint-config-prettier": "^8.0.2",
@@ -242,6 +244,7 @@
     "@ant-design/icons": "^4.2.2",
     "@fortawesome/fontawesome-free": "^5.14.0",
     "@hot-loader/react-dom": "^16.13.0",
+    "@ledgerhq/hw-transport-node-hid": "^5.26.0",
     "@ledgerhq/hw-transport-webusb": "^5.26.0",
     "@reduxjs/toolkit": "^1.4.0",
     "@stitches/react": "0.0.2",
@@ -252,7 +255,7 @@
     "electron-debug": "^3.1.0",
     "electron-log": "^4.2.2",
     "electron-updater": "^4.3.1",
-    "history": "^4.7.2",
+    "history": "^4.10.1",
     "iotex-antenna": "^0.30.1",
     "is-browser": "^2.1.0",
     "is-electron": "^2.2.0",
@@ -266,8 +269,9 @@
     "react-hot-loader": "^4.12.21",
     "react-router-dom": "^5.2.0",
     "reflect-metadata": "^0.1.13",
-    "regenerator-runtime": "^0.13.5",
-    "source-map-support": "^0.5.19",
+    "regenerator-runtime": "^0.13.7",
+    "scrypt": "^6.0.3",
+    "scrypt.js": "^0.3.0",
     "styletron-engine-atomic": "^1.4.6",
     "tailwindcss": "^1.8.11"
   },

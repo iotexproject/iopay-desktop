@@ -9,6 +9,12 @@ import { UnlockByKeystoreFileComponent } from './unlock-by-key-store-file';
 import { UnlockByLedgerComponent } from './unlock-by-ledger.component';
 import { UnlockByPrivateKeyComponent } from './unlock-by-private-key.component';
 import { VersionInfoComponent } from './version-info/version-info.component';
+<<<<<<< Updated upstream
+=======
+import { EmptyWalletComponent } from './empty-wallet/empty-wallet.component';
+import { UnlockByMnemonicComponent } from './unlock-by-mnemonic-phrase.component';
+import { UnlocByPrivateKeyComponent } from './unlock-by-private-key.component';
+>>>>>>> Stashed changes
 
 export const UnlockWalletComponent = () => {
   const [showModal, setShowModal] = useState(false);
@@ -45,10 +51,14 @@ export const UnlockWalletComponent = () => {
                 <UnlockByKeystoreFileComponent />
               </Tabs.TabPane>
               <Tabs.TabPane tab={lang.t('unlock-wallet.by_private_key')} key={2}>
+<<<<<<< Updated upstream
                 <UnlockByPrivateKeyComponent />
+=======
+                <UnlocByPrivateKeyComponent />
+>>>>>>> Stashed changes
               </Tabs.TabPane>
               <Tabs.TabPane tab={lang.t('unlock-wallet.by_mnemonic')} key={3}>
-                UnlockByMnemonic
+                <UnlockByMnemonicComponent />
               </Tabs.TabPane>
               {isElectron() && (
                 <Tabs.TabPane tab={lang.t('unlock-wallet.by_ledger')} key={4}>

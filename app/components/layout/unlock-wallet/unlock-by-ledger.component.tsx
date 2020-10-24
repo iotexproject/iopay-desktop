@@ -63,7 +63,7 @@ export const UnlockByLedgerComponent = () => {
       <CommonMarginComponent />
 
       <CommonMarginComponent>
-        <Button htmlType="button" onClick={unlockWallet} loading={isPending}>
+        <Button type="primary" htmlType="button" onClick={unlockWallet} loading={isPending}>
           {lang.t('wallet.account.unlock')}
         </Button>
         {errorMessage && <InputErrorComponent style={{ color: '#d93900' }}>{errorMessage}</InputErrorComponent>}

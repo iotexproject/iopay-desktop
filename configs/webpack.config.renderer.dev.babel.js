@@ -53,8 +53,7 @@ export default merge(baseConfig, {
     ...(process.env.PLAIN_HMR ? [] : ['react-hot-loader/patch']),
     `webpack-dev-server/client?http://localhost:${port}/`,
     'webpack/hot/only-dev-server',
-    require.resolve('../app/index.tsx'),
-    require.resolve('../app/renderer.ts'),
+    require.resolve(path.join(__dirname, '..', 'app', 'index.tsx')),
   ],
 
   output: {
@@ -65,31 +64,80 @@ export default merge(baseConfig, {
   module: {
     rules: [
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.global\.css$/,
         use: [
-          // Creates `style` nodes from JS strings
-          'style-loader',
-          // Translates CSS into CommonJS
-          'css-loader',
-          // Compiles Sass to CSS
-          'sass-loader',
-        ],
-      },
-      {
-        // Handle `antd` styles
-        test: /\.css$/,
-        exclude: /src/,
-        use: [
-          { loader: 'style-loader' },
+          {
+            loader: 'style-loader',
+          },
           {
             loader: 'css-loader',
             options: {
+              sourceMap: true,
+            },
+          },
+        ],
+      },
+      {
+        test: /^((?!\.global).)*\.css$/,
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[name]__[local]__[hash:base64:5]',
+              },
+              sourceMap: true,
               importLoaders: 1,
             },
           },
         ],
       },
-
+      // SASS support - compile all .global.scss files and pipe it to style.css
+      {
+        test: /\.global\.(scss|sass)$/,
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+          {
+            loader: 'sass-loader',
+          },
+        ],
+      },
+      // SASS support - compile all other .scss files and pipe it to style.css
+      {
+        test: /^((?!\.global).)*\.(scss|sass)$/,
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: '@teamsupercell/typings-for-css-modules-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[name]__[local]__[hash:base64:5]',
+              },
+              sourceMap: true,
+              importLoaders: 1,
+            },
+          },
+          {
+            loader: 'sass-loader',
+          },
+        ],
+      },
       // WOFF Font
       {
         test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,

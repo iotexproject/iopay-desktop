@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Tabs } from 'antd';
-import { SendActionComponent } from './send-action/send-action.component';
-import { useStore } from '../../../stores';
+import { SendActionComponent } from '../send-action/send-action.component';
+import { useStore } from '../../../../stores';
 const { TabPane } = Tabs;
 
 export const WalletLeftComponent = () => {

@@ -1,21 +1,21 @@
 {
-  "name": "iopay-desktop",
-  "productName": "iopay-desktop",
-  "version": "1.3.0",
+  "name": "electron-react-boilerplate",
+  "productName": "ElectronReact",
+  "version": "1.3.1",
   "description": "Electron application boilerplate based on React, React Router, Webpack, React Hot Loader for rapid application development",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
     "build-dll": "cross-env NODE_ENV=development webpack --config ./configs/webpack.config.renderer.dev.dll.babel.js --colors",
     "build-e2e": "cross-env E2E_BUILD=true yarn build",
     "build-main": "cross-env NODE_ENV=production webpack --config ./configs/webpack.config.main.prod.babel.js --colors",
-    "build-renderer": "cross-env NODE_ENV=production webpack --config ./configs/webpack.config.renderer.prod.babel.js --colors && npm run tailwind",
-    "dev": "cross-env START_HOT=1 node -r @babel/register ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 yarn start-renderer-dev && npm run tailwind",
+    "build-renderer": "cross-env NODE_ENV=production webpack --config ./configs/webpack.config.renderer.prod.babel.js --colors  && npm run tailwind",
+    "dev": "cross-env START_HOT=1 node -r @babel/register ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 yarn start-renderer-dev  && npm run tailwind",
     "electron-rebuild": "electron-rebuild --parallel --force --types prod,dev,optional --module-dir app",
     "tailwind": "ts-node tailwind.ts",
     "lint": "cross-env NODE_ENV=development eslint . --cache --ext .js,.jsx,.ts,.tsx",
-    "lint-fix": "yarn --silent lint --fix",
+    "lint-fix": "yarn --silent lint --fix; exit 0",
     "lint-styles": "stylelint --ignore-path .eslintignore '**/*.*(css|scss)' --syntax scss",
-    "lint-styles-fix": "yarn --silent lint-styles --fix",
+    "lint-styles-fix": "yarn --silent lint-styles --fix; exit 0",
     "package": "yarn build && electron-builder build --publish never",
     "package-all": "yarn build && electron-builder build -mwl",
     "package-ci": "yarn postinstall && yarn build && electron-builder --publish always",
@@ -29,7 +29,7 @@
     "prestart": "yarn build",
     "start": "cross-env NODE_ENV=production electron ./app/main.prod.js",
     "start-main-debug": "yarn start-main-dev --inspect=5858 --remote-debugging-port=9223",
-    "start-main-dev": "cross-env START_HOT=1 NODE_ENV=development electron -r ./internals/scripts/BabelRegister ./app/main.ts",
+    "start-main-dev": "cross-env START_HOT=1 NODE_ENV=development electron -r ./internals/scripts/BabelRegister ./app/main.dev.ts",
     "start-renderer-dev": "cross-env NODE_ENV=development webpack-dev-server --config configs/webpack.config.renderer.dev.babel.js",
     "test": "cross-env BABEL_DISABLE_CACHE=1 jest",
     "test-all": "yarn lint && yarn tsc && yarn build && yarn test",
@@ -53,7 +53,7 @@
     ]
   },
   "build": {
-    "productName": "iopay-desktop",
+    "productName": "ElectronReact",
     "appId": "org.develar.ElectronReact",
     "files": [
       "dist/",
@@ -96,20 +96,45 @@
       "buildResources": "resources",
       "output": "release"
     },
+    "extraResources": [
+      "./resources/**"
+    ],
     "publish": {
       "provider": "github",
-      "owner": "iotexproject",
-      "repo": "iopay-desktop",
+      "owner": "electron-react-boilerplate",
+      "repo": "electron-react-boilerplate",
       "private": false
     }
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iotexproject/iopay-desktop.git"
+    "url": "git+https://github.com/electron-react-boilerplate/electron-react-boilerplate.git"
   },
+  "author": {
+    "name": "Electron React Boilerplate Maintainers",
+    "email": "electronreactboilerplate@gmail.com",
+    "url": "https://electron-react-boilerplate.js.org"
+  },
+  "contributors": [
+    {
+      "name": "Vikram Rangaraj",
+      "email": "vikr01@icloud.com",
+      "url": "https://github.com/vikr01"
+    },
+    {
+      "name": "Amila Welihinda",
+      "email": "amilajack@gmail.com",
+      "url": "https://github.com/amilajack"
+    },
+    {
+      "name": "John Tran",
+      "email": "jptran318@gmail.com",
+      "url": "https://github.com/jooohhn"
+    }
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/iotexproject/iopay-desktop/issues"
+    "url": "https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues"
   },
   "keywords": [
     "electron",
@@ -122,7 +147,7 @@
     "hot",
     "reload"
   ],
-  "homepage": "https://github.com/iotexproject/iopay-desktop#readme",
+  "homepage": "https://github.com/electron-react-boilerplate/electron-react-boilerplate#readme",
   "jest": {
     "testURL": "http://localhost/",
     "moduleNameMapper": {
@@ -168,11 +193,12 @@
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-react": "^7.10.4",
     "@babel/preset-typescript": "^7.10.4",
-    "@babel/register": "^7.11.5",
+    "@babel/register": "^7.10.5",
+    "@teamsupercell/typings-for-css-modules-loader": "^2.3.0",
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
-    "@types/history": "^4.7.6",
-    "@types/jest": "^26.0.12",
+    "@types/history": "^4.7.7",
+    "@types/jest": "^26.0.10",
     "@types/ledgerhq__hw-transport-webusb": "^4.70.1",
     "@types/node": "12",
     "@types/react": "^16.9.44",
@@ -195,15 +221,30 @@
     "concurrently": "^5.3.0",
     "core-js": "^3.6.5",
     "cross-env": "^7.0.2",
-    "css-loader": "^3.4.2",
+    "css-loader": "^3.6.0",
     "detect-port": "^1.3.0",
     "electron": "^8",
     "electron-builder": "^22.3.6",
     "electron-devtools-installer": "^2.2.4",
     "electron-rebuild": "^1.10.0",
     "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.2",
+    "enzyme-adapter-react-16": "^1.15.3",
     "enzyme-to-json": "^3.5.0",
+    "eslint": "^7.5.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-airbnb-typescript": "^9.0.0",
+    "eslint-config-erb": "^1.0.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-import-resolver-webpack": "^0.12.2",
+    "eslint-plugin-compat": "^3.8.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^23.18.0",
+    "eslint-plugin-jsx-a11y": "6.3.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.20.6",
+    "eslint-plugin-react-hooks": "^4.0.8",
+    "eslint-plugin-testcafe": "^0.2.1",
     "file-loader": "^6.0.0",
     "husky": "^4.2.5",
     "identity-obj-proxy": "^3.0.0",
@@ -217,10 +258,9 @@
     "prettier": "^2.0.5",
     "react-test-renderer": "^16.12.0",
     "rimraf": "^3.0.0",
-    "sass": "^1.26.11",
-    "sass-loader": "^8.0.2",
+    "sass-loader": "^9.0.3",
     "source-map-support": "^0.5.19",
-    "style-loader": "^1.1.3",
+    "style-loader": "^1.2.1",
     "stylelint": "^13.6.1",
     "stylelint-config-prettier": "^8.0.2",
     "stylelint-config-standard": "^20.0.0",
@@ -234,7 +274,7 @@
     "typescript": "^3.9.7",
     "typings-for-css-modules-loader": "^1.7.0",
     "url-loader": "^4.1.0",
-    "webpack": "^4.44.2",
+    "webpack": "^4.43.0",
     "webpack-bundle-analyzer": "^3.8.0",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
@@ -244,18 +284,17 @@
     "@ant-design/icons": "^4.2.2",
     "@fortawesome/fontawesome-free": "^5.14.0",
     "@hot-loader/react-dom": "^16.13.0",
-    "@ledgerhq/hw-transport-node-hid": "^5.26.0",
     "@ledgerhq/hw-transport-webusb": "^5.26.0",
-    "@reduxjs/toolkit": "^1.4.0",
     "@stitches/react": "0.0.2",
     "antd": "^4.6.5",
     "bignumber.js": "^9.0.1",
     "bitcore-mnemonic": "^8.22.2",
     "class-transformer": "^0.3.1",
+    "connected-react-router": "^6.6.1",
     "electron-debug": "^3.1.0",
-    "electron-log": "^4.2.2",
-    "electron-updater": "^4.3.1",
-    "history": "^4.10.1",
+    "electron-log": "^4.2.4",
+    "electron-updater": "^4.3.4",
+    "history": "^4.7.2",
     "iotex-antenna": "^0.30.1",
     "is-browser": "^2.1.0",
     "is-electron": "^2.2.0",
@@ -269,14 +308,18 @@
     "react-hot-loader": "^4.12.21",
     "react-router-dom": "^5.2.0",
     "reflect-metadata": "^0.1.13",
-    "regenerator-runtime": "^0.13.7",
-    "scrypt": "^6.0.3",
-    "scrypt.js": "^0.3.0",
+    "regenerator-runtime": "^0.13.5",
+    "source-map-support": "^0.5.19",
     "styletron-engine-atomic": "^1.4.6",
     "tailwindcss": "^1.8.11"
   },
   "devEngines": {
-    "node": ">=7.x"
+    "node": ">=7.x",
+    "npm": ">=4.x",
+    "yarn": ">=0.21.3"
+  },
+  "collective": {
+    "url": "https://opencollective.com/electron-react-boilerplate-594"
   },
   "browserslist": [],
   "prettier": {
@@ -293,7 +336,6 @@
         }
       }
     ],
-    "printWidth": 200,
     "singleQuote": true
   },
   "stylelint": {
@@ -305,9 +347,11 @@
   "renovate": {
     "extends": [
       "bliss"
+    ],
+    "baseBranches": [
+      "next"
     ]
   },
   "husky": {
-    "hooks": {}
   }
 }

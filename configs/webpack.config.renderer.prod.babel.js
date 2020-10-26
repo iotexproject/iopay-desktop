@@ -21,13 +21,12 @@ export default merge(baseConfig, {
 
   mode: 'production',
 
-  target: process.env.E2E_BUILD ? 'electron-renderer' : 'electron-preload',
+  target: process.env.E2E_BUILD || process.env.ERB_SECURE !== 'true' ? 'electron-renderer' : 'electron-preload',
 
   entry: [
     'core-js',
     'regenerator-runtime/runtime',
     path.join(__dirname, '..', 'app/index.tsx'),
-    require.resolve('../app/renderer.ts'),
   ],
 
   output: {
@@ -38,27 +37,85 @@ export default merge(baseConfig, {
 
   module: {
     rules: [
+      // Extract all .global.css to style.css as is
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.global\.css$/,
         use: [
-          // Creates `style` nodes from JS strings
-          'style-loader',
-          // Translates CSS into CommonJS
-          'css-loader',
-          // Compiles Sass to CSS
-          'sass-loader',
-        ],
-      },
-      {
-        // antd 样式处理
-        test: /\.css$/,
-        exclude: /src/,
-        use: [
-          { loader: 'style-loader' },
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: './',
+            },
+          },
           {
             loader: 'css-loader',
             options: {
+              sourceMap: true,
+            },
+          },
+        ],
+      },
+      // Pipe other styles through css modules and append to style.css
+      {
+        test: /^((?!\.global).)*\.css$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[name]__[local]__[hash:base64:5]',
+              },
+              sourceMap: true,
+            },
+          },
+        ],
+      },
+      // Add SASS support  - compile all .global.scss files and pipe it to style.css
+      {
+        test: /\.global\.(scss|sass)$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
               importLoaders: 1,
+            },
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+        ],
+      },
+      // Add SASS support  - compile all other .scss files and pipe it to style.css
+      {
+        test: /^((?!\.global).)*\.(scss|sass)$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[name]__[local]__[hash:base64:5]',
+              },
+              importLoaders: 1,
+              sourceMap: true,
+            },
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
             },
           },
         ],

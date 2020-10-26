@@ -15,4 +15,6 @@ tailwindcss({
 
 `
   )
-  .then((res) => writeFileSync(path.join(__dirname, 'tailwind.css'), res.css));
+  .then((res: Record<string, unknown>) =>
+    writeFileSync(path.join(__dirname, 'tailwind.css'), res.css)
+  );

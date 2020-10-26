@@ -10,19 +10,17 @@
     "strict": true,
     "pretty": true,
     "sourceMap": true,
+    "experimentalDecorators": true,
     /* Additional Checks */
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": false,
     /* Module Resolution Options */
     "moduleResolution": "node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "allowJs": true
   },
   "exclude": [

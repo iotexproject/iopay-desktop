@@ -82,7 +82,7 @@ export const UnlockByKeystoreFileComponent = () => {
         <FormItem label={<FormLabelComponent>{lang.t('wallet.input.password')}</FormLabelComponent>} rules={[{ required: true }]} fieldKey="password" key="password" name="password">
         <Password className="form-input" name="password" autoComplete="on" onInput={(ev) => onInput(ev)} />
         </FormItem>
-        <Button type="primary" onClick={unlockWallet} disabled={isDecrypting} loading={isDecrypting}>
+        <Button type="primary" htmlType="submit" onClick={unlockWallet} disabled={isDecrypting} loading={isDecrypting}>
           {lang.t('wallet.account.unlock')}
         </Button>
       </Form>

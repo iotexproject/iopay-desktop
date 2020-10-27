@@ -15,6 +15,9 @@
   },
   "license": "MIT",
   "dependencies": {
+    "iotex-antenna": "^0.30.2",
+    "react-redux": "^7.2.2",
+    "redux": "^4.0.5",
     "scrypt": "^6.0.3"
   }
 }

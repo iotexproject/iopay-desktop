@@ -1,9 +1,9 @@
 import { notification } from "antd";
 import BigNumber from "bignumber.js";
-import { plainToClass, Type } from "class-transformer";
+import { Type } from "class-transformer";
 import ethereumjs from "ethereumjs-abi";
 import { Account } from "iotex-antenna/lib/account/account";
-import { ExecutionMethod } from "iotex-antenna/lib/action/method";
+import { ExecutionMethod, SignerPlugin } from "iotex-antenna/lib/action/method";
 import { AbiByFunc, getArgTypes, getHeaderHash } from "iotex-antenna/lib/contract/abi-to-byte";
 import { Contract } from "iotex-antenna/lib/contract/contract";
 import { fromBytes } from "iotex-antenna/lib/crypto/address";
@@ -25,22 +25,34 @@ export class ERC20 implements IERC20 {
   @Type()
   protected methods!: Record<string, Method>;
 
-  public static create(address: string, provider: IRpcMethod, abi = ABI): ERC20 {
-    const contract = plainToClass(Contract, new Contract(abi, address, { provider, signer: provider['signer'] }));
-    const erc20 = plainToClass(ERC20, { ...new ERC20(), address, provider, contract });
-    const methods = Reflect.ownKeys(erc20.contract.getABI() as AbiByFunc).reduce((acc, fnName) => {
-      const fnAbi = (erc20.contract.getABI() as AbiByFunc).fnName;
-      if (fnAbi.type !== "constructor") {
-        const args = getArgTypes(fnAbi);
-        const header = getHeaderHash(fnAbi, args);
-        acc[header] = {
-          name: fnName as string,
-          inputsNames: args.map(i => `${i.name}`),
-          inputsTypes: args.map(i => `${i.type}`),
-        };
+  public create(address: string, provider: IRpcMethod, abi = ABI): ERC20 {
+    // TODO: There is not property  'signer' exist in provider.
+    // @ts-ignore
+    const contract = new Contract(abi, address, { provider, signer: provider['signer'] as SignerPlugin });
+    const erc20 = { ...new ERC20(), address, provider, contract } as ERC20;
+    const methods = {};
+    // @ts-ignore
+    for (const fnName of Object.keys(erc20.contract.getABI())) {
+      // @ts-ignore
+      const fnAbi = erc20.contract.getABI()[fnName];
+      if (fnAbi.type === "constructor") {
+        continue;
       }
-      return acc;
-    }, {} as Record<string, Method>);
+
+      const args = getArgTypes(fnAbi);
+      const header = getHeaderHash(fnAbi, args);
+
+      // @ts-ignore
+      methods[header] = {
+        name: fnName,
+        inputsNames: args.map(i => {
+          return `${i.name}`;
+        }),
+        inputsTypes: args.map(i => {
+          return `${i.type}`;
+        })
+      };
+    }
     erc20.methods = methods;
     return erc20;
   }
@@ -158,10 +170,10 @@ export class ERC20 implements IERC20 {
   public async readMethod(
     method: string,
     callerAddress: string,
-    ...args
+    owner?: string
   ) {
     const result = await this.provider.readContract({
-      execution: this.contract.pureEncodeMethod("0", method, ...args),
+      execution: this.contract.pureEncodeMethod("0", method, [owner]),
       callerAddress: callerAddress
     });
 
@@ -298,7 +310,7 @@ export class ERC20 implements IERC20 {
       method.inputsTypes,
       Buffer.from(data.substring(8), "hex")
     );
-    const values = {};
+    const values = {} as Record<string, unknown>;
 
     for (let i = 0; i < method.inputsTypes.length; i++) {
       if (method.inputsTypes[i] === "address") {

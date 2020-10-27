@@ -12,7 +12,7 @@ export class WalletStore {
     hideExport: true,
     network: {} as IRPCProvider,
     customRPCs: [] as IRPCProvider[],
-    tokens: [],
+    tokens: {},
     defaultNetworkTokens: [],
     lockAt: LockWalletMilliseconds.NeverLock,
     isLockDelayed: false,

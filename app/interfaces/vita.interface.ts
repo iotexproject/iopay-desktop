@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { IERC20 } from './erc20.interface';
+import { Account } from 'iotex-antenna/lib/account/account';
 
 export interface IVita extends IERC20 {
   claim(account: Account, gasPrice: string, gasLimit: string): Promise<string>;

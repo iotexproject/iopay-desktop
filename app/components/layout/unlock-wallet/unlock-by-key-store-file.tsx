@@ -18,7 +18,7 @@ export const UnlockByKeystoreFileComponent = () => {
   const history = useHistory();
   const { lang } = useStore();
   const unlockWallet = () => {
-    setIsDecrypting(true);
+    // setIsDecrypting(true);
     // FIXME: if we do not wrapped code in setTimeout, the loading status is never shown, consider it's a bug from ANTD.
     setTimeout(() => {
       const values = form.getFieldsValue() as IUnlockFormFields;

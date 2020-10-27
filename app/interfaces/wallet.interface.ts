@@ -29,7 +29,7 @@ export interface IWalletState {
   hideExport?: boolean;
   network?: IRPCProvider;
   customRPCs: IRPCProvider[];
-  tokens: string[];
+  tokens: ITokenInfoDict;
   defaultNetworkTokens: Array<string>;
   lockAt?: number; // milliseconds to lock wallet. 0: never lock. 1: never to reset it;
   isLockDelayed?: boolean;

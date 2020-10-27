@@ -1,10 +1,27 @@
-import { IERC20 } from "../interfaces/erc20.interface";
+import BigNumber from "bignumber.js";
+import { Account } from 'iotex-antenna/lib/account/account';
+import { toRau } from "iotex-antenna/lib/account/utils";
+import { DecodeData } from "iotex-antenna/lib/contract/contract";
+import { BID_ABI } from "../constants/abi";
+import { IAuthorizedMessage } from "../interfaces/authorized-message.interface";
+import { IGasEstimation } from "../interfaces/gas-estimation.interface";
+import { ITokenInfo } from "../interfaces/wallet.interface";
+import { toIoTeXAddress } from "../utils/address";
+import { getAntenna } from "../utils/get-antenna";
+import { getNonce } from "../utils/get-nonce";
 import { ERC20 } from "./erc20.model";
+import { Vita } from "./vita.model";
+import { XConfKeys } from './xconf.enum';
+
+const vitaTokens = [
+  "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw", // VITA Production
+  "io14j96vg9pkx28htpgt2jx0tf3v9etpg4j9h384m" // VITA Testnet
+];
 
 export class Token {
-  protected readonly api: IERC20 | Vita;
+  protected readonly api: ERC20 | Vita;
   protected static readonly tokenRefs: { [index: string]: Token } = {};
-  protected isBidToken: boolean;
+  protected isBidToken: boolean = false;
 
   constructor(api: ERC20 | Vita) {
     this.api = api;
@@ -15,11 +32,13 @@ export class Token {
   }
 
   public static getToken(tokenAddress: string): Token {
+
     if (Token.tokenRefs[tokenAddress]) {
       return Token.tokenRefs[tokenAddress];
     }
     const isVita = (vitaTokens || []).indexOf(tokenAddress) >= 0;
-    const api = (isVita ? Vita : ERC20).create(tokenAddress, getAntenna().iotx);
+    const clazz = new (isVita ? Vita : ERC20);
+    const api = clazz.create(tokenAddress, getAntenna().iotx);
     const token = new Token(api);
     Token.tokenRefs[tokenAddress] = token;
     return token;
@@ -44,7 +63,8 @@ export class Token {
     ) {
       return Token.tokenRefs[tokenAddress];
     }
-    const api = ERC20.create(tokenAddress, getAntenna().iotx, BID_ABI);
+    const erc20 = new ERC20();
+    const api = erc20.create(tokenAddress, getAntenna().iotx, BID_ABI);
     const token = new Token(api);
     token.isBidToken = true;
     Token.tokenRefs[tokenAddress] = token;
@@ -100,10 +120,11 @@ export class Token {
 
   public async getBasicTokenInfo() {
     const api = this.api;
-    const cache = xconf.getConf<{ [index: string]: ITokenBasicInfo }>(
-      XConfKeys.TOKENS_BASIC_INFOS,
-      {}
-    );
+    let cache;
+    const _tbi = localStorage.getItem(XConfKeys.TOKENS_BASIC_INFOS)
+    if (_tbi) {
+      cache = JSON.parse(_tbi);
+    }
     if (!cache[api.address]) {
       const [name, symbol, decimals] = await Promise.all([
         api.name(api.address),
@@ -116,7 +137,7 @@ export class Token {
         symbol,
         name
       };
-      xconf.setConf(XConfKeys.TOKENS_BASIC_INFOS, cache);
+      localStorage.setItem(XConfKeys.TOKENS_BASIC_INFOS, JSON.stringify(cache));
     }
     return cache[api.address];
   }

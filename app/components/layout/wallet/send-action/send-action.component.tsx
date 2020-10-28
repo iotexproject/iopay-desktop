@@ -4,7 +4,7 @@ import { useForm } from 'antd/lib/form/Form';
 import FormItem from 'antd/lib/form/FormItem';
 import BigNumber from 'bignumber.js';
 import { fromRau, toRau } from 'iotex-antenna/lib/account/utils';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ContractFormormModel } from '../../../../interfaces/contract-form-modal.interface';
 import { Token } from '../../../../models/token.model';
 import { useStore } from '../../../../stores';
@@ -17,12 +17,14 @@ import { BroadcastFailureComponent } from '../broad-cast/broad-cast-failure.comp
 import { BroadcastSuccessComponent } from '../broad-cast/broad-cast-success-component';
 import { ConfirmContractModalComponent } from '../confirm-contract-modal/confirm-contract-modal.component';
 import { AmountTypeComponent } from './amount-type.component';
+import { useHistory } from 'react-router';
 
 export const SendActionComponent = () => {
   const { lang, wallet } = useStore();
   const [form] = useForm<ContractFormormModel>();
+  const history = useHistory();
   form.setFieldsValue({
-    sendTo: '',
+    sendTo: undefined,
     amount: '1',
     gasPrice: '1',
     gasLimit: '200000',
@@ -45,6 +47,8 @@ export const SendActionComponent = () => {
     const antenna = getAntenna();
     const address = wallet.state.account?.address;
     const tokens = wallet.state.tokens;
+    console.log(wallet.state);
+    console.log(tokens);
     const errors = form.getFieldsError().reduce((acc, cur) => {
       if (cur.errors.length > 0) {
         acc.push(...cur.errors);
@@ -102,8 +106,9 @@ export const SendActionComponent = () => {
       }
     } else {
       const tokenInfo = tokens[symbol as string];
+      console.log(tokenInfo);
       const tokenAmount = new BigNumber(amount).multipliedBy(
-        new BigNumber(`1e${tokenInfo.decimals.toNumber()}`)
+        new BigNumber(`1e${tokenInfo?.decimals?.toNumber()}`)
       );
       const gasPriceRau = toRau(gasPrice, 'Qev');
       window.console.log(
@@ -117,7 +122,7 @@ export const SendActionComponent = () => {
       );
       try {
         txHash = await customToken.transfer(
-          recipient,
+          'sdasdhsakjdhashd',
           tokenAmount,
           wallet.state.account,
           gasPriceRau,
@@ -183,7 +188,11 @@ export const SendActionComponent = () => {
       sendTransfer();
     }
   };
-
+  useEffect(() => {
+    if (!wallet.state.account?.address) {
+      history.push('/unlock')
+    }
+  });
   return (
     <>
       <Form form={form} onValuesChange={onValuesChange}>
@@ -192,14 +201,15 @@ export const SendActionComponent = () => {
           name="sendTo"
           rules={[
             {
-              required: true,
-            },
-            {
               type: 'string',
               message: 'IOTX address has to be of length 41',
               len: 41,
             },
+            {
+              required: true,
+            },
           ]}
+          initialValue={undefined}
         >
           <Input addonAfter={<WalletOutlined />} />
         </FormItem>
@@ -258,7 +268,7 @@ export const SendActionComponent = () => {
         showModal={state.showTransferModal}
       />
 
-      {state.showBroadcast ? (
+      {state.showBroadcast && state.showTransferModal ? (
         <>
           {state.broadcast?.success ? (
             <BroadcastSuccessComponent txHash={state.txHash} />

@@ -1,14 +1,12 @@
-import { plainToClass } from 'class-transformer';
 import { Account } from 'iotex-antenna/lib/account/account';
-import { action, observable } from 'mobx';
+import { action } from 'mobx';
 import { IRPCProvider } from '../interfaces/rpc-provider.interface';
 import { IWalletState } from '../interfaces/wallet.interface';
 import { LockWalletMilliseconds } from '../models/locak-wallet.enum';
 
 export class WalletStore {
-  @observable
   public readonly state: IWalletState = {
-    account: plainToClass(Account, {}),
+    account: {} as Account,
     hideExport: true,
     network: {} as IRPCProvider,
     customRPCs: [] as IRPCProvider[],

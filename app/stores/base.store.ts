@@ -35,4 +35,6 @@ export class BaseStore {
     "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw", // VITA Production
     "io14j96vg9pkx28htpgt2jx0tf3v9etpg4j9h384m" // VITA Testnet
   ] as string[];
+
+  public bidContractAddress = "io16alj8sw7pt0d5wv22gdyphuyz9vas5dk8czk88";
 }

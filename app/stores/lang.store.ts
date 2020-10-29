@@ -40,14 +40,19 @@ export class LangStore {
   }
 
   public t(str: keyof Dict, data?: Dict): string {
-    let processed = this.translation[str] || this.translations.en[str];
-    if (!processed) {
-      return String(str);
-    }
-    if (data) {
-      Object.keys(data).forEach((key) => {
-        processed = processed.replace(`\${${key}}`, data[key]);
-      });
+    let processed = '';
+    try {
+      processed = this.translation[str] || this.translations.en[str];
+      if (!processed) {
+        return String(str);
+      }
+      if (data) {
+        Object.keys(data).forEach((key) => {
+          processed = processed.replace(`\${${key}}`, data[key]);
+        });
+      }
+    } catch (err) {
+      return str as string;
     }
 
     return processed;

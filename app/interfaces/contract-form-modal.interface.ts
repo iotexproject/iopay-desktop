@@ -1,10 +1,11 @@
 export interface ContractFormormModel {
-  sendTo: string;
-  amount: string;
-  gasPrice: string;
-  gasLimit: string;
-  dataHex: number;
-  gasCostLimit: number;
+  sendTo?: string;
+  amount?: string;
+  gasPrice?: string;
+  gasLimit?: string;
+  dataHex?: number;
+  method?: string;
+  gasCostLimit?: number;
   [key: string]: unknown;
 }
 

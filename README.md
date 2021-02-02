@@ -1,26 +1,38 @@
-# ioPay Desktop V2 
+<p align="center"><img src="https://i.imgur.com/NZfsD1p.png"></p>
 
-If you are looking for V1 (the current working version), please refer to https://github.com/iotexproject/iotex-explorer/tree/master/src/electron. 
+## Usage
 
-## Starting Development
+### Create an App
 
-Start the app in the `dev` environment. This starts the renderer process in [**hot-module-replacement**](https://webpack.js.org/guides/hmr-react/) mode and starts a webpack dev server that sends hot updates to the renderer process:
+```
+# with npm
+$ npm init nextron-app my-app --example with-typescript
 
-```bash
-$ npm install
-$ npm run dev
+# with yarn
+$ yarn create nextron-app my-app --example with-typescript
+
+# with pnpx
+$ pnpx create-nextron-app my-app --example with-typescript
 ```
 
-## Packaging for Production
+### Install Dependencies
 
-To package apps for the local platform:
+```
+$ cd my-app
 
-```bash
-npm run package
+# using yarn or npm
+$ yarn (or `npm install`)
+
+# using pnpm
+$ pnpm install --shamefully-hoist
 ```
 
-## Docs
+### Use it
 
-See our [docs and guides here](https://electron-react-boilerplate.js.org/docs/installation)
+```
+# development mode
+$ yarn dev (or `npm run dev` or `pnpm run dev`)
 
-Stiches: https://stitches.dev/docs/styling
+# production build
+$ yarn build (or `npm run build` or `pnpm run build`)
+```

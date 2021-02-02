@@ -54,3 +54,6 @@ npm-debug.log.*
 
 # build
 build/**/*
+
+.next
+app

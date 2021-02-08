@@ -10,8 +10,8 @@ import { cssUtils } from '../modules/stitches/css';
 css.global({
   html: {
     margin: 0,
-    padding: 0 ,
-  }
+    padding: 0,
+  },
 })
 
 export function Root() {

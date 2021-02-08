@@ -1,4 +1,9 @@
 {
+  "notice": "注意",
+  "notice.button": "我知道了",
+  "wellcome.title": "欢迎使用ioPay桌面钱包！",
+  "wellcome.tips": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar",
+  "next": "下一步",
   "meta.title": "IoTeX 区块浏览器",
   "meta.description": "探索IoTeX区块链地址，操作和智能合约。",
   "topbar.brand": "品牌",

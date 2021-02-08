@@ -1,4 +1,10 @@
 {
+  "notice": "Notice",
+  "notice.button": "I got it!",
+  "wellcome": "Wellcome",
+  "wellcome.title": "Welcome to ioPay desktop wallet！ ",
+  "wellcome.tips": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar",
+  "next": "Next",
   "meta.title": "Blockchain Explorer - IoTeX",
   "meta.description": "Informationen zu Adressen, Aktionen und Smart Contracts der IoTeX-Blockchain.",
   "topbar.brand": "IoTeX",

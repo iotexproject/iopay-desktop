@@ -6,8 +6,9 @@ import React, { useEffect } from "react"
 import { useStore } from "../../store/index"
 import { getAntenna, getAntennaUtils } from "../../utils/antenna"
 import { useRouter } from "next/router"
+import { observer } from "mobx-react-lite"
 
-export const UnlockByMnemonicComponent = () => {
+export const UnlockByMnemonicComponent = observer(() => {
   const router = useRouter()
   const { wallet, lang } = useStore()
   const [form] = useForm()
@@ -19,6 +20,8 @@ export const UnlockByMnemonicComponent = () => {
   }, [])
 
   const unlockWallet = async () => {
+    const errors = await form.validateFields()
+    if (errors) return
     try {
       const antenna = getAntennaUtils()
       const mnemonicPhrase = form.getFieldValue("mnemonicPhrase")
@@ -66,4 +69,4 @@ export const UnlockByMnemonicComponent = () => {
       </Form>
     </>
   )
-}
+})

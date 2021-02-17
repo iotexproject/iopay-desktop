@@ -3,13 +3,13 @@ import { fromRau } from "iotex-antenna/lib/account/utils"
 import { makeAutoObservable } from "mobx"
 import { storeUtils } from "../utils/store"
 import { IAccount } from "iotex-antenna/lib/account/account"
+import { db } from "../utils/db"
 
 export class Account {
   address: string
   balance: string = "0"
   privateKey: string
   constructor(data: Partial<Account>) {
-    console.log({ data })
     Object.assign(this, data)
     makeAutoObservable(this)
   }
@@ -19,6 +19,7 @@ export class Account {
     if (data?.accountMeta) {
       const { balance } = data?.accountMeta
       this.balance = fromRau(balance, "iotx")
+      await db.accountMeta.put({ address: this.address, key: "iotex.balance", value: balance })
     }
   }
 }
@@ -33,7 +34,7 @@ export class WalletStore {
 
   async setcurAccount(account) {
     this.account = account
-    await storeUtils.setCurAccount(account)
+    storeUtils.setCurAccount(account)
   }
 
   get curAccount() {
@@ -41,6 +42,9 @@ export class WalletStore {
   }
   async init() {
     await Promise.all([this.loadCurAccount(), this.loadAccounts()])
+    if (this.curAccount) {
+      await this.curAccount.loadBalance()
+    }
   }
 
   async addAccount({ account }: { account: IAccount }) {
@@ -48,9 +52,12 @@ export class WalletStore {
       return
     }
     const newAccount = new Account(account)
-    await newAccount.loadBalance()
     this.accounts[account.address] = newAccount
-    await storeUtils.saveAccount(newAccount)
+    await Promise.all([
+      storeUtils.saveAccount(newAccount),
+      this.setcurAccount(newAccount.address),
+      newAccount.loadBalance(),
+    ])
   }
   async loadCurAccount() {
     this.account = await storeUtils.getCurAccount()

@@ -1,5 +1,23 @@
 import Dexie from "dexie"
 
+export class DB extends Dexie {
+  account: Dexie.Table<IAccount, string>
+  accountMeta: Dexie.Table<IAccountMeta, string>
+  kv: Dexie.Table<IKV, string>
+
+  constructor() {
+    super("iopay")
+    this.version(1).stores({
+      account: "&address, privateKey",
+      accountMeta: "[address+key], value",
+      kv: "key, value",
+    })
+    this.account = this.table("account")
+    this.kv = this.table("kv")
+    this.accountMeta = this.table("accountMeta")
+  }
+}
+
 export interface IAccount {
   id?: number
   address: string
@@ -14,26 +32,9 @@ export interface IKV {
 
 export interface IAccountMeta {
   id?: number
-  adderss: string
+  address: string
   key: string
   value: string
-}
-
-export class DB extends Dexie {
-  account: Dexie.Table<IAccount, number>
-  accountMeta: Dexie.Table<IAccountMeta, number>
-  kv: Dexie.Table<IKV, number>
-
-  constructor() {
-    super("MyAppDatabase")
-    this.version(1).stores({
-      account: "++id, &address, privateKey",
-      accountMeta: "++id, address, key, value",
-      kv: "++id, key, value",
-    })
-    this.account = this.table("account")
-    this.kv = this.table("kv")
-  }
 }
 
 export const db = new DB()

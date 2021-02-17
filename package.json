@@ -18,6 +18,7 @@
     "@stitches/react": "^0.0.2",
     "antd": "^4.10.2",
     "bitcore-mnemonic": "^8.24.1",
+    "dexie": "^3.0.3",
     "electron-serve": "^1.0.0",
     "electron-store": "^6.0.1",
     "electron-typed-ipc": "^0.1.0",

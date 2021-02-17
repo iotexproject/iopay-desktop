@@ -598,5 +598,7 @@
   "ok": "OK",
   "wallet.logout.success": "You have successfully logged out your current wallet.",
   "wallet.logout.login_to_another": "Please select another wallet to unlock.",
-  "meta.description.desktop": "Interact with Smart Contracts and the Blockchain"
+  "meta.description.desktop": "Interact with Smart Contracts and the Blockchain",
+  "home": "Home",
+  "wallet": "Wallet"
 }

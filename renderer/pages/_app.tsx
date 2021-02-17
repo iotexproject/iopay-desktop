@@ -11,7 +11,6 @@ css.global({
 })
 export default function MyApp({ Component, pageProps }) {
   const { wallet } = useStore()
-
   useEffect(() => {
     wallet.init()
   }, [])

@@ -1,20 +1,12 @@
-import { Button } from "antd"
-import Layout from "../../components/Layout"
-import Link from "next/link"
+import { observer } from "mobx-react-lite"
+import { useStore } from "../../store/index"
+import Dashboard from "../../components/home/dashboard"
+import { WalletImport } from "../../components/wallet/import"
 
-const IndexPage = () => {
-  return (
-    <Layout title="Notice!">
-      <h1>Notice!</h1>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor
-        sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar
-      </p>
-      <Button>
-        <Link href="/wallet/import">I got it!</Link>
-      </Button>
-    </Layout>
-  )
-}
+const IndexPage = observer(() => {
+  const { wallet } = useStore()
+  if (!wallet.curAccount) return <WalletImport />
+  return <Dashboard />
+})
 
 export default IndexPage

@@ -29,7 +29,7 @@ export class LangStore {
     localStorage.setItem("lang", lang)
     this.lang = lang
   }
-  t(str: keyof Dict, data?: Dict): string {
+  t(str: keyof typeof en, data?: Dict): string {
     let processed = ""
     try {
       processed = this.translation[str] || this.translations.en[str]

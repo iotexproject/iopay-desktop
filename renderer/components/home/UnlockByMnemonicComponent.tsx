@@ -26,7 +26,7 @@ export const UnlockByMnemonicComponent = () => {
       code.toString()
       const xpriv = code.toHDPrivateKey()
       const account = antenna.privateKeyToAccount(xpriv.privateKey.toString())
-      await wallet.setAccount({ account })
+      await wallet.addAccount({ account })
       router.push("/wallet")
     } catch (err) {
       console.log(err)

@@ -1,8 +1,9 @@
-import Layout from "../../components/Layout"
+import Layout from "../Layout"
 import { Alert, Col, Modal, Row, Tabs } from "antd"
 import { useStore } from "../../store/index"
-import { UnlockByMnemonicComponent } from "../../components/home/UnlockByMnemonicComponent"
-const IndexPage = () => {
+import { UnlockByMnemonicComponent } from "../home/UnlockByMnemonicComponent"
+
+export const WalletImport = () => {
   const { lang } = useStore()
   return (
     <Layout title="Import!">
@@ -18,5 +19,3 @@ const IndexPage = () => {
     </Layout>
   )
 }
-
-export default IndexPage

@@ -1,24 +1,25 @@
-import React, { ReactNode, useState } from "react";
-import Head from "next/head";
-import { Menu, Layout } from "antd";
-import Link from "next/link";
-import { WalletOutlined } from "@ant-design/icons";
-import { css } from "../utils/stitches.config";
-import { useStore } from "../store/index";
+import React, { ReactNode, useState } from "react"
+import Head from "next/head"
+import { Menu, Layout } from "antd"
+import Link from "next/link"
+import { WalletOutlined, HomeOutlined } from "@ant-design/icons"
+import { css } from "../utils/stitches.config"
+import { useStore } from "../store/index"
+import { observer } from "mobx-react-lite"
+import { useRouter } from "next/router"
+import { useEffect } from "react"
 
 type Props = {
-  children: ReactNode;
-  title?: string;
-};
-const { Header, Sider, Content } = Layout;
+  children: ReactNode
+  title?: string
+  showSider?: boolean
+}
+const { Header, Sider, Content } = Layout
 
-const MainLayout = ({
-  children,
-  title = "This is the default title",
-}: Props) => {
-  const [collapsed, setCollapsed] = useState(false);
-  const { lang } = useStore();
-
+const MainLayout = observer(({ children, title = "This is the default title", showSider = true }: Props) => {
+  const [collapsed, setCollapsed] = useState(false)
+  const router = useRouter()
+  const { lang } = useStore()
   return (
     <Layout className="h-full">
       <Head>
@@ -35,30 +36,24 @@ const MainLayout = ({
         </Menu> */}
       </Header>
       <Layout>
-        <Sider
-          collapsible={true}
-          theme="dark"
-          width={200}
-          onCollapse={setCollapsed}
-          collapsed={collapsed}
-        >
-          <Menu
-            theme="dark"
-            mode="inline"
-            defaultSelectedKeys={["wallet"]}
-            defaultOpenKeys={["sub1"]}
-            className="h-full border-r-0"
-          >
-            <Menu.Item
-              key="wallet"
-              icon={<WalletOutlined />}
-              className="flex items-center"
-              style={{ marginTop: 0 }}
+        {showSider && (
+          <Sider collapsible={true} theme="dark" width={200} onCollapse={setCollapsed} collapsed={collapsed}>
+            <Menu
+              theme="dark"
+              mode="inline"
+              defaultSelectedKeys={[router.pathname]}
+              defaultOpenKeys={["sub1"]}
+              className="h-full border-r-0"
             >
-              <Link href="/home">{lang.t("wallet.title.wallet")}</Link>
-            </Menu.Item>
-          </Menu>
-        </Sider>
+              <Menu.Item key="/home" icon={<HomeOutlined />} className="flex items-center" style={{ marginTop: 0 }}>
+                <Link href="/home">{lang.t("home")}</Link>
+              </Menu.Item>
+              <Menu.Item key="/wallet" icon={<WalletOutlined />} className="flex items-center" style={{ marginTop: 0 }}>
+                <Link href="/wallet">{lang.t("wallet")}</Link>
+              </Menu.Item>
+            </Menu>
+          </Sider>
+        )}
         <Layout>
           <Content
             style={{
@@ -73,8 +68,8 @@ const MainLayout = ({
         </Layout>
       </Layout>
     </Layout>
-  );
-};
+  )
+})
 
 const styles = {
   logo: css({
@@ -84,5 +79,5 @@ const styles = {
     margin: "16px 24px 16px 0",
     background: "rgba(255, 255, 255, 0.3)",
   }),
-};
-export default MainLayout;
+}
+export default MainLayout

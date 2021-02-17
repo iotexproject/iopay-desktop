@@ -1,17 +1,14 @@
-
-import { observer } from "mobx-react-lite";
-import Layout from "../../components/Layout"
-import { useStore } from '../../store/index';
+import { observer } from "mobx-react-lite"
+import MainLayout from "../../components/Layout"
+import { useStore } from "../../store/index"
 
 const IndexPage = observer(() => {
-  const {wallet} = useStore()
+  const { wallet } = useStore()
   return (
-    <Layout title="Wallet">
+    <MainLayout title="Wallet">
       <h1>Notice!</h1>
-      <p>
-        {JSON.stringify(wallet.account?.address)}
-      </p>
-    </Layout>
+      <p>{wallet.account}</p>
+    </MainLayout>
   )
 })
 

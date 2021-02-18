@@ -600,5 +600,22 @@
   "wallet.logout.login_to_another": "Please select another wallet to unlock.",
   "meta.description.desktop": "Interact with Smart Contracts and the Blockchain",
   "home": "Home",
-  "wallet": "Wallet"
+  "wallet": "Wallet",
+  "notice": "Notice",
+  "notice.button": "I got it!",
+  "wellcome": "Wellcome",
+  "wellcome.title": "Welcome to ioPay desktop wallet！ ",
+  "wellcome.next": "Next",
+  "wellcome.tips": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar",
+  "Cancel": "Cancel",
+  "Confirm": "Confirm",
+  "Login": "Login",
+  "wellcome.back": "Welcome back!",
+  "setting": "Setting",
+  "netWork": "NetWork",
+  "netWork.placholder": "Setup Your Password",
+  "password.placholder": "Type Your Password",
+  "prc.placholder": "Confirm Your Passcode",
+  "prc.url": "PRC URL",
+  "save": "Save"
 }
